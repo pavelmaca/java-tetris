@@ -15,7 +15,7 @@ public class ShapeGenerator {
     }
 
     public Shape createNext() {
-        Shape newShape = getRandomType().create(Color.black);
+        Shape newShape = getRandomType().create(randomColor());
 
         randomFlip(newShape);
         randomRotation(newShape);
@@ -51,6 +51,10 @@ public class ShapeGenerator {
         }
     }
 
+    private Color randomColor() {
+        return new Color(randomGenerator.nextInt(256), randomGenerator.nextInt(256), randomGenerator.nextInt(256));
+    }
+
     private enum Type {
         LINE {
             public Shape create(Color color) {
@@ -73,7 +77,7 @@ public class ShapeGenerator {
         },
         T {
             public Shape create(Color color) {
-                Shape t = new Shape(3, 3,color);
+                Shape t = new Shape(3, 3, color);
                 t.addPoint(0, 0);
                 t.addPoint(0, 1);
                 t.addPoint(0, 2);

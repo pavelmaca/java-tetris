@@ -21,6 +21,10 @@ public class Shape {
     }
 
     public int getHeight(){
+        return points.length;
+    }
+
+    public int getWidth(){
         return points.length > 0 ? points[0].length : 0;
     }
 
@@ -34,7 +38,7 @@ public class Shape {
     }*/
 
     public void rotate(Direction direction) {
-        // skip height is 0, nothing to do
+        // skip colsCount is 0, nothing to do
         if (points.length == 0) {
             return;
         }
@@ -90,7 +94,7 @@ public class Shape {
     }
 
     private void flip() {
-        // skip height is 0, nothing to do
+        // skip colsCount is 0, nothing to do
         if (points.length == 0) {
             return;
         }

@@ -19,33 +19,34 @@ public class Engine {
     int actualX;
     int actualY;
 
-
-    int width;
-    int height;
+    int rowsCount;
+    int colsCount;
 
     private int score = 0;
 
 
     ShapeGenerator generator = new ShapeGenerator();
 
-    public Engine(int width, int height) {
-        herniPole = new Color[width][height];
-        this.width = width;
-        this.height = height;
+    public Engine(int rowsCount, int colsCount) {
+        herniPole = new Color[rowsCount][colsCount];
+        this.rowsCount = rowsCount;
+        this.colsCount = colsCount;
 
         creteNewShape();
 
 
-        /*
-        herniPole[width-1][0] = Color.YELLOW;
-        herniPole[0][height-1] = Color.BLUE;
-        herniPole[width-1][height-1] = Color.RED;
-        herniPole[0][0] = Color.GREEN;*/
+
+        herniPole[rowsCount-1][0] = Color.YELLOW;
+        herniPole[0][colsCount-1] = Color.BLUE;
+        herniPole[rowsCount-1][colsCount-1] = Color.RED;
+        herniPole[0][0] = Color.GREEN;
     }
+
+
 
     protected void creteNewShape() {
         actualShape = generator.createNext();
-        actualX = herniPole.length / 2;
+        actualX = colsCount / 2;
         actualY = 0;
     }
 
@@ -69,7 +70,7 @@ public class Engine {
         int buttomY = nextY + actualShape.getHeight();
 
         // TODO: check actual points instead of dimension
-        if (buttomY >= height + 1) {
+        if (buttomY >= rowsCount+1) {
             return true;
         }
 
@@ -78,9 +79,6 @@ public class Engine {
 
     public Color[][] getGameFields() {
         Color[][] fields = deepCopyFields();
-
-        boolean[][] shapePoints = actualShape.getPoints();
-
         return margeFildsAndShape(fields, actualShape);
     }
 
@@ -88,10 +86,10 @@ public class Engine {
 
         boolean[][] points = shape.getPoints();
 
-        for (int x = 0; x < points.length; x++) {
-            for (int y = 0; y < points[x].length; y++) {
-                if (points[x][y]) {
-                    fields[actualX + x][actualY + y] = Color.cyan;
+        for (int y = 0; y < points.length; y++) {
+            for (int x = 0; x < points[y].length; x++) {
+                if (points[y][x]) {
+                    fields[actualY + y][actualX + x] = Color.cyan;
                 }
             }
         }
@@ -110,13 +108,13 @@ public class Engine {
     }
 
     public void moveLeft() {
-        if (actualX != 0) {
+        if (actualX > 1) {
             actualX--;
         }
     }
 
     public void moveRight() {
-        if (actualX != herniPole.length - 1) {
+        if (actualX + actualShape.getWidth() < colsCount) {
             actualX++;
         }
     }
@@ -129,5 +127,13 @@ public class Engine {
 
     public void rotateShape() {
         actualShape.rotateRight();
+    }
+
+    public int getRowsCount() {
+        return rowsCount;
+    }
+
+    public int getColsCount() {
+        return colsCount;
     }
 }

@@ -92,7 +92,7 @@ public class ShapeGenerator {
     }
 
     public Shape createT() {
-        Shape t = new Shape(2, 3, Color.black);
+        Shape t = new Shape(3, 3, Color.black);
         t.addPoint(0, 0);
         t.addPoint(0, 1);
         t.addPoint(0, 2);

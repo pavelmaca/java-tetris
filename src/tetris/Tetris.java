@@ -16,7 +16,7 @@ public class Tetris {
         int width = 35;
         int height = 45;
 
-        Engine tetris = new Engine(width, height);
+        Engine tetris = new Engine(height, width);
         Gui graphics = new Gui(tetris);
         graphics.render();
     }

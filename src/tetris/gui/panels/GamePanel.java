@@ -59,22 +59,23 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        //System.out.println("paint me!");
-
         // Background
         setBackground(Color.GRAY);
 
         Color[][] fileds = engine.getGameFields();
 
-        int squareSize = getWidth() / fileds.length;
-        for (int x = 0; x < fileds.length; x++) {
-            for (int y = 0; y < fileds[x].length; y++) {
-                if (fileds[x][y] == null) {
+        int squareSize = getWidth() / engine.getColsCount();
+        int squareSizeY = getHeight() / engine.getRowsCount();
+
+        for (int x = 0; x < engine.getColsCount(); x++) {
+            for (int y = 0; y < engine.getRowsCount(); y++) {
+                if (fileds[y][x] == null) {
                     continue;
                 }
 
-                g.setColor(fileds[x][y]);
-                g.fillRect(x * squareSize, y * squareSize, squareSize, squareSize);
+                g.setColor(fileds[y][x]);
+                g.fillRect(x * squareSize, y * squareSizeY, squareSize, squareSizeY);
+            //    System.out.println(x + ":"+y + "x: "+(x * squareSize) + " y:" + (y * squareSizeY));
             }
         }
     }

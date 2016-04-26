@@ -4,8 +4,9 @@ import tetris.engine.Engine;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.Random;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Created by Assassik on 25. 4. 2016.
@@ -14,22 +15,30 @@ public class GamePanel extends JPanel {
 
 
     private Timer timer;
-    private int engineTick = 0;
+    private int tickNumber = 0;
 
-    private int fallSpeed = 50; // 50 = 2x peer secund
+    private final int FPS = 60;
+
+    // number of ms betwean repainting squers
+    private final int FALL_SPEED = 500;
 
     private Engine engine;
 
     public GamePanel(Engine engine) {
         this.engine = engine;
 
-        timer = new Timer(10, (ActionEvent e) -> {
-            engineTick++;
-            if(engineTick == fallSpeed) {
-                engineTick = 0;
+        /*
+        System.out.println("FPS : "+FPS + " interval: "+(1000/FPS));
+        System.out.println("FALL_SPEED: "+FALL_SPEED + " fall interval:"+ FALL_SPEED / (1000 / FPS));
+        */
+
+        timer = new Timer(1000 / FPS, (ActionEvent e) -> {
+            tickNumber++;
+            if (tickNumber == FALL_SPEED / (1000 / FPS)) {
+                tickNumber = 0;
                 engine.tick();
 
-                if(engine.isGameOver()){
+                if (engine.isGameOver()) {
                     timer.stop();
                 }
             }
@@ -43,16 +52,21 @@ public class GamePanel extends JPanel {
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
 
-                switch (e.getKeyCode()){
+                switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
-                        engine.moveLeft(); break;
+                        engine.moveLeft();
+                        break;
                     case KeyEvent.VK_RIGHT:
-                        engine.moveRight(); break;
+                        engine.moveRight();
+                        break;
                     case KeyEvent.VK_DOWN:
-                        engine.moveDown(); break;
+                        engine.moveDown();
+                        break;
                     case KeyEvent.VK_SPACE:
-                        engine.rotateShape(); break;
-                };
+                        engine.rotateShape();
+                        break;
+                }
+                ;
             }
         });
 
@@ -79,7 +93,7 @@ public class GamePanel extends JPanel {
 
                 g.setColor(fileds[y][x]);
                 g.fillRect(x * squareSize, y * squareSizeY, squareSize, squareSizeY);
-            //    System.out.println(x + ":"+y + "x: "+(x * squareSize) + " y:" + (y * squareSizeY));
+                //  System.out.println(x + ":"+y + "x: "+(x * squareSize) + " y:" + (y * squareSizeY));
             }
         }
     }

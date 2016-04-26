@@ -75,11 +75,11 @@ public class ShapeGenerator {
     }
 
     public Shape createLine() {
-        int lenght = 4;
-        Shape line = new Shape(1, lenght, Color.black);
-        for (int i = 0; i < lenght; i++) {
-            line.addPoint(0, i);
-        }
+        Shape line = new Shape(3,3, Color.black);
+        line.addPoint(1, 0);
+        line.addPoint(1, 1);
+        line.addPoint(1, 2);
+
         return line;
     }
 

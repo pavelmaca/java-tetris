@@ -28,6 +28,10 @@ public class GamePanel extends JPanel {
             if(engineTick == fallSpeed) {
                 engineTick = 0;
                 engine.tick();
+
+                if(engine.isGameOver()){
+                    timer.stop();
+                }
             }
 
             repaint();

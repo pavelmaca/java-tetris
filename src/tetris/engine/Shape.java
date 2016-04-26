@@ -20,6 +20,10 @@ public class Shape {
         this.color = color;
     }
 
+    public int getHeight(){
+        return points.length > 0 ? points[0].length : 0;
+    }
+
     public void addPoint(int x, int y) {
         points[y][x] = true;
     }

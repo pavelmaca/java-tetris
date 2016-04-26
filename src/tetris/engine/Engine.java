@@ -1,8 +1,6 @@
 package tetris.engine;
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.HashMap;
 
 /**
  * Created by Assassik on 7. 4. 2016.
@@ -21,6 +19,10 @@ public class Engine {
     int actualX;
     int actualY;
 
+
+    int width;
+    int height;
+
     private int score = 0;
 
 
@@ -28,6 +30,9 @@ public class Engine {
 
     public Engine(int width, int height) {
         herniPole = new Color[width][height];
+        this.width = width;
+        this.height = height;
+
         creteNewShape();
 
 
@@ -45,10 +50,30 @@ public class Engine {
     }
 
     public void tick() {
-        actualY++;
-        System.out.println("tick");
-        // move actualShape down
-        // check colisions
+        if (!isColision(actualX + 1, actualY + 1)) {
+            actualY++;
+            System.out.println("tick");
+        } else {
+            saveShape();
+            creteNewShape();
+            System.out.println("collision");
+        }
+    }
+
+
+    protected void saveShape(){
+        margeFildsAndShape(herniPole, actualShape);
+    }
+
+    protected boolean isColision(int nextX, int nextY) {
+        int buttomY = nextY + actualShape.getHeight();
+
+        // TODO: check actual points instead of dimension
+        if (buttomY >= height + 1) {
+            return true;
+        }
+
+        return false;
     }
 
     public Color[][] getGameFields() {
@@ -56,9 +81,16 @@ public class Engine {
 
         boolean[][] shapePoints = actualShape.getPoints();
 
-        for (int x = 0; x < shapePoints.length; x++) {
-            for (int y = 0; y < shapePoints[x].length; y++) {
-                if (shapePoints[x][y]) {
+        return margeFildsAndShape(fields, actualShape);
+    }
+
+    protected Color[][] margeFildsAndShape(Color[][] fields, Shape shape){
+
+        boolean[][] points = shape.getPoints();
+
+        for (int x = 0; x < points.length; x++) {
+            for (int y = 0; y < points[x].length; y++) {
+                if (points[x][y]) {
                     fields[actualX + x][actualY + y] = Color.cyan;
                 }
             }
@@ -90,10 +122,12 @@ public class Engine {
     }
 
     public void moveDown() {
-        actualY++;
+        if (!isColision(actualX, actualY + 1)) {
+            actualY++;
+        }
     }
 
-    public void rotateShape(){
+    public void rotateShape() {
         actualShape.rotateRight();
     }
 }

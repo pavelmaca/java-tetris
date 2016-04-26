@@ -16,7 +16,7 @@ public class GamePanel extends JPanel {
     private Timer timer;
     private int engineTick = 0;
 
-    private int fallSpeed = 50;
+    private int fallSpeed = 50; // 50 = 2x peer secund
 
     private Engine engine;
 

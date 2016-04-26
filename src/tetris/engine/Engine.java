@@ -55,6 +55,7 @@ public class Engine {
             System.out.println("tick");
         } else {
             saveShape();
+            tryCleanup();
             creteNewShape();
             if (isColision(actualX, actualY)) {
                 gameOver = true;
@@ -101,6 +102,35 @@ public class Engine {
 
         return false;
     }
+
+    protected void tryCleanup() {
+        boolean[] rowsToClean = new boolean[rowsCount];
+        for (int y = 0; y < rowsCount; y++) {
+            boolean fullRow = true;
+            for (int x = 0; x < colsCount; x++) {
+                if (herniPole[y][x] == null) {
+                    fullRow = false;
+                    break;
+                }
+            }
+            rowsToClean[y] = fullRow;
+        }
+
+        // TODO not working in more complex situations
+        // maybe use recursion??
+        int n = 0;
+        for (int y = rowsCount - 1; y > 0; y--) {
+            if (rowsToClean[y]) {
+                n++;
+            }
+
+            if(n > 0) {
+                Color[] oldRow = y - n < 0 ? new Color[colsCount] : herniPole[y - n];
+                herniPole[y] = oldRow;
+            }
+        }
+    }
+
 
     public Color[][] getGameFields() {
         Color[][] fields = deepCopyFields();

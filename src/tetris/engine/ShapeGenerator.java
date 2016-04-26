@@ -1,7 +1,5 @@
 package tetris.engine;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.awt.*;
 import java.util.Random;
 
@@ -16,26 +14,28 @@ public class ShapeGenerator {
         randomGenerator = new Random();
     }
 
+    public Shape createNext() {
+        Shape newShape = getRandomType().create(Color.black);
+
+        randomFlip(newShape);
+        randomRotation(newShape);
+
+        return newShape;
+    }
+
     private Type getRandomType() {
         Type[] types = Type.values();
         return types[randomGenerator.nextInt(types.length)];
     }
 
     private void randomRotation(Shape shape) {
-        switch (randomGenerator.nextInt(7)) {// 7 is intentionaly.. make no changes
+        switch (randomGenerator.nextInt(4)) {// 4 is intentionaly.. make no changes
             case 0:
                 shape.rotateLeft();
             case 1:
                 shape.rotateLeft();
             case 2:
                 shape.rotateLeft();
-                break;
-            case 3:
-                shape.rotateRight();
-            case 4:
-                shape.rotateRight();
-            case 5:
-                shape.rotateRight();
                 break;
         }
     }
@@ -51,20 +51,10 @@ public class ShapeGenerator {
         }
     }
 
-    public Shape createNext() {
-        Shape newShape = getRandomType().create();
-
-        randomFlip(newShape);
-        randomRotation(newShape);
-
-        return newShape;
-    }
-
-
-    public enum Type {
+    private enum Type {
         LINE {
-            public Shape create() {
-                Shape line = new Shape(3,3, Color.black);
+            public Shape create(Color color) {
+                Shape line = new Shape(3, 3, color);
                 line.addPoint(1, 0);
                 line.addPoint(1, 1);
                 line.addPoint(1, 2);
@@ -73,17 +63,17 @@ public class ShapeGenerator {
             }
         },
         CORNER {
-            public Shape create() {
-                Shape corner = new Shape(2, 2, Color.black);
+            public Shape create(Color color) {
+                Shape corner = new Shape(2, 2, color);
                 corner.addPoint(0, 0);
                 corner.addPoint(0, 1);
                 corner.addPoint(1, 0);
                 return corner;
             }
         },
-        T{
-            public Shape create() {
-                Shape t = new Shape(3, 3, Color.black);
+        T {
+            public Shape create(Color color) {
+                Shape t = new Shape(3, 3,color);
                 t.addPoint(0, 0);
                 t.addPoint(0, 1);
                 t.addPoint(0, 2);
@@ -92,8 +82,8 @@ public class ShapeGenerator {
             }
         },
         SQUARE {
-            public Shape create() {
-                Shape square = new Shape(2, 2, Color.black);
+            public Shape create(Color color) {
+                Shape square = new Shape(2, 2, color);
                 square.addPoint(0, 0);
                 square.addPoint(0, 1);
                 square.addPoint(1, 0);
@@ -102,8 +92,8 @@ public class ShapeGenerator {
             }
         },
         N {
-            public Shape create() {
-                Shape n = new Shape(3, 3, Color.black);
+            public Shape create(Color color) {
+                Shape n = new Shape(3, 3, color);
                 n.addPoint(0, 0);
                 n.addPoint(0, 1);
                 n.addPoint(1, 1);
@@ -112,8 +102,8 @@ public class ShapeGenerator {
             }
         },
         L {
-            public Shape create() {
-                Shape l = new Shape(3, 3, Color.black);
+            public Shape create(Color color) {
+                Shape l = new Shape(3, 3, color);
                 l.addPoint(0, 0);
                 l.addPoint(0, 1);
                 l.addPoint(0, 2);
@@ -122,7 +112,7 @@ public class ShapeGenerator {
             }
         };
 
-        public abstract Shape create();
+        public abstract Shape create(Color color);
     }
 
 }

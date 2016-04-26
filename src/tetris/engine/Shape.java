@@ -12,7 +12,7 @@ public class Shape {
      * NULL představuje prázdné místo
      */
     private boolean[][] points;
-    Color color;
+    private Color color;
 
     public Shape(int width, int height, Color color) {
 
@@ -26,6 +26,10 @@ public class Shape {
 
     public int getWidth(){
         return points.length > 0 ? points[0].length : 0;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public void addPoint(int x, int y) {

@@ -144,7 +144,7 @@ public class Engine {
         for (int y = 0; y < points.length; y++) {
             for (int x = 0; x < points[y].length; x++) {
                 if (points[y][x]) {
-                    fields[actualY + y][actualX + x] = Color.cyan;
+                    fields[actualY + y][actualX + x] = actualShape.getColor();
                 }
             }
         }

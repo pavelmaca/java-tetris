@@ -53,13 +53,13 @@ public class Engine {
     }
 
     public void tick() {
-        int nextY = actualY +1;
+        int nextY = actualY + 1;
         if (!isColision(actualX, nextY)) {
             actualY = nextY;
             System.out.println("tick");
         } else {
             saveShape();
-            tryCleanup();
+            cleanFields();
             creteNewShape();
             if (isColision(actualX, actualY)) {
                 gameOver = true;
@@ -100,9 +100,10 @@ public class Engine {
         return false;
     }
 
-    protected void tryCleanup() {
-        boolean[] rowsToClean = new boolean[rowsCount];
-        for (int y = 0; y < rowsCount; y++) {
+    protected void cleanFields() {
+        Color[][] cleanFilds = new Color[rowsCount][colsCount];
+        int n = rowsCount - 1;
+        for (int y = rowsCount - 1; y > 0; y--) {
             boolean fullRow = true;
             for (int x = 0; x < colsCount; x++) {
                 if (fileds[y][x] == null) {
@@ -110,22 +111,12 @@ public class Engine {
                     break;
                 }
             }
-            rowsToClean[y] = fullRow;
-        }
-
-        // TODO not working in more complex situations
-        // maybe use recursion??
-        int n = 0;
-        for (int y = rowsCount - 1; y > 0; y--) {
-            if (rowsToClean[y]) {
-                n++;
-            }
-
-            if (n > 0) {
-                Color[] oldRow = y - n < 0 ? new Color[colsCount] : fileds[y - n];
-                fileds[y] = oldRow;
+            if (!fullRow) {
+                cleanFilds[n--] = fileds[y];
             }
         }
+
+        fileds = cleanFilds;
     }
 
 

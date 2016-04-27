@@ -103,6 +103,8 @@ public class GamePanel extends JPanel {
                 engine.tick();
 
                 if (engine.isGameOver()) {
+                    System.out.println("Game over!");
+                    System.out.println("Deal with it...");
                     this.cancel();
                 }
             }

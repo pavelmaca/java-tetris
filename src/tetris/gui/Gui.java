@@ -3,6 +3,7 @@ package tetris.gui;
 
 import tetris.engine.Engine;
 import tetris.gui.panels.GamePanel;
+import tetris.gui.panels.StatusPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,15 +30,10 @@ public class Gui {
        // frame.setLayout(new BorderLayout());
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 
-        // Center panel
-        JPanel center = renderCenter();
+        renderGame();
 
-        // Menu
-        JPanel menu = renderMenu();
+        renderStatus();
 
-      /*  int width = center.getWidth() + menu.getWidth();
-        int height = center.getHeight() + menu.getHeight();
-        frame.setSize(width, height);*/
         frame.setResizable(false);
 
         frame.pack();
@@ -45,32 +41,32 @@ public class Gui {
 
     }
 
-    private JPanel renderCenter() {
-        JPanel centerPanel = new GamePanel(engine);
-        frame.add(centerPanel);
+    private JPanel renderGame() {
+        JPanel gamePanel = new GamePanel(engine);
+        frame.add(gamePanel);
 
-        Dimension size = new Dimension();
-        size.setSize(engine.getColsCount() * 10, engine.getRowsCount() * 10);
-        centerPanel.setPreferredSize(size);
-     /*   centerPanel.setMinimumSize(size);
-        centerPanel.setMaximumSize(size);*/
-        centerPanel.setFocusable(true); // set focus for key events
+        Dimension panelSize = new Dimension();
+        panelSize.setSize(engine.getColsCount() * 10, engine.getRowsCount() * 10);
 
-        return centerPanel;
+        gamePanel.setPreferredSize(panelSize);
+
+        gamePanel.setFocusable(true); // set focus for key events
+
+        return gamePanel;
     }
 
-    private JPanel renderMenu() {
-        JPanel rightPanel = new JPanel();
-        frame.add(rightPanel);
+    private JPanel renderStatus() {
+        JPanel statusPanel = new StatusPanel(engine);
+        frame.add(statusPanel);
 
         JButton btn = new JButton("Start");
         // btn.setSize(10, 200);
         btn.addActionListener((actionEvent) -> {
             System.out.println(actionEvent.getActionCommand());
         });
-        rightPanel.add(btn);
+        statusPanel.add(btn);
 
-        return rightPanel;
+        return statusPanel;
     }
 
 

@@ -43,20 +43,20 @@ public class Shape {
             return;
         }
 
-        int xCount = points[0].length;
-        int yCount = points.length;
+        int width = getWidth();
+        int height = getHeight();
 
         //create new array with switched dimensions
-        boolean[][] newShape = new boolean[xCount][yCount];
+        boolean[][] newShape = new boolean[width][height];
 
-        //TODO do round up
-        int xStop = xCount / 2 + (xCount % 2 == 0 ? 0 : 1);
-        int yStop = yCount / 2 + (yCount % 2 == 0 ? 0 : 1);
+        // round up
+        int xStop = (int) Math.ceil(width / 2.0);
+        int yStop = (int) Math.ceil(height / 2.0);
 
         for (int yTop = 0; yTop < yStop; yTop++) {
             for (int xLeft = 0; xLeft < xStop; xLeft++) {
-                int yBottom = yCount - 1 - yTop;
-                int xRight = xCount - 1 - xLeft;
+                int yBottom = height - 1 - yTop;
+                int xRight = width - 1 - xLeft;
 
                 // rotate right
                 newShape[xLeft][yBottom] = points[yBottom][xRight];
@@ -70,31 +70,19 @@ public class Shape {
         points = newShape;
     }
 
-    public void flipVerticaly() {
-        flip();
-    }
 
-    //TODO flip horizontaly
-    public void flipHorizontaly() {
-        flip();
-    }
+    public void flip() {
+        int width = getWidth();
+        int height = getHeight();
 
-    private void flip() {
-        // skip colsCount is 0, nothing to do
-        if (points.length == 0) {
-            return;
-        }
+        // round up
+        int widthStop = (int) Math.ceil(width / 2.0);
 
-        int xLenght = points[0].length;
-        int yLenght = points.length;
-
-        int yStop = yLenght / 2;
-        int xStop = xLenght / 2;
-        for (int y = 0; y < yStop; y++) {
-            for (int x = 0; x < xStop; x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < widthStop; x++) {
                 boolean tmp = points[y][x];
-                points[y][x] = points[y][xLenght - 1 - x];
-                points[y][xLenght - 1 - x] = tmp;
+                points[y][x] = points[y][width - 1 - x];
+                points[y][width - 1 - x] = tmp;
             }
         }
     }

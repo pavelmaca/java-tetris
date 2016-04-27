@@ -78,7 +78,7 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
 
         // Background
-        setBackground(Color.GRAY);
+        setBackground(Color.LIGHT_GRAY);
 
         Color[][] fileds = engine.getGameFields();
 

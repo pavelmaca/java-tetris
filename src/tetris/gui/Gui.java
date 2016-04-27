@@ -17,8 +17,11 @@ public class Gui {
 
     Engine engine;
 
-    public Gui(Engine engine) {
+    int squereSize;
+
+    public Gui(Engine engine, int squereSize) {
         this.engine = engine;
+        this.squereSize = squereSize;
     }
 
     public void render() {
@@ -27,7 +30,6 @@ public class Gui {
         // end program after window exit
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-       // frame.setLayout(new BorderLayout());
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 
         renderGame();
@@ -46,7 +48,7 @@ public class Gui {
         frame.add(gamePanel);
 
         Dimension panelSize = new Dimension();
-        panelSize.setSize(engine.getColsCount() * 10, engine.getRowsCount() * 10);
+        panelSize.setSize(engine.getColsCount() * squereSize, engine.getRowsCount() * squereSize);
 
         gamePanel.setPreferredSize(panelSize);
 

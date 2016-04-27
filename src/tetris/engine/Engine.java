@@ -74,13 +74,6 @@ public class Engine {
     }
 
     protected boolean isColision(int nextX, int nextY) {
-       /* int shapeButtomY = nextY + actualShape.getHeight();
-
-        // TODO: check actual points instead of dimension
-        if (shapeButtomY >= rowsCount + 1) {
-            return true;
-        }*/
-
         boolean[][] points = actualShape.getPoints();
         for (int x = 0; x < actualShape.getWidth(); x++) {
             for (int y = 0; y < actualShape.getHeight(); y++) {
@@ -184,13 +177,22 @@ public class Engine {
     }
 
     public void rotateShape() {
-
         actualShape.rotate();
 
+        // check collision after rotation
+        if (isColision(actualX, actualY)) {
+            // rotate back to original state and exit
+            // TODO: create rotateBack () ??
+            actualShape.rotate();
+            actualShape.rotate();
+            actualShape.rotate();
+            return;
+        }
+
         // fix x position after rotating on sides
-        if(actualX < 0){
+        if (actualX < 0) {
             actualX = 0;
-        }else if(actualX + actualShape.getWidth() > colsCount){
+        } else if (actualX + actualShape.getWidth() > colsCount) {
             actualX = colsCount - actualShape.getWidth();
         }
 

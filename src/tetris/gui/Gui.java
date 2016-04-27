@@ -39,6 +39,9 @@ public class Gui {
         frame.setResizable(false);
 
         frame.pack();
+
+        frame.setLocationRelativeTo(null); //run in center of screen
+        
         frame.setVisible(true);
 
     }

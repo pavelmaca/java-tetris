@@ -124,7 +124,7 @@ public class Engine {
                 n++;
             }
 
-            if(n > 0) {
+            if (n > 0) {
                 Color[] oldRow = y - n < 0 ? new Color[colsCount] : herniPole[y - n];
                 herniPole[y] = oldRow;
             }
@@ -163,20 +163,23 @@ public class Engine {
     }
 
     public void moveLeft() {
-        if (!isColision(actualX - 1, actualY)) {
-            actualX--;
+        int nextX = actualX - 1;
+        if (!isColision(nextX, actualY)) {
+            actualX = nextX;
         }
     }
 
     public void moveRight() {
-        if (!isColision(actualX + 1, actualY)) {
-            actualX++;
+        int nextX = actualX + 1;
+        if (!isColision(nextX, actualY)) {
+            actualX = nextX;
         }
     }
 
     public void moveDown() {
-        if (!isColision(actualX, actualY + 1)) {
-            actualY++;
+        int nextY = actualY + 1;
+        if (!isColision(actualX, nextY)) {
+            actualY = nextY;
         }
     }
 

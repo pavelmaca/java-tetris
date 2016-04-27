@@ -52,7 +52,10 @@ public class ShapeGenerator {
     }
 
     private Color randomColor() {
-        return new Color(randomGenerator.nextInt(256), randomGenerator.nextInt(256), randomGenerator.nextInt(256));
+        final Color[] colors = {
+                Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN
+        };
+        return colors[randomGenerator.nextInt(colors.length)];
     }
 
     private enum Type {

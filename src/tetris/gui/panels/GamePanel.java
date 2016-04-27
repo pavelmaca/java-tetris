@@ -3,10 +3,12 @@ package tetris.gui.panels;
 import tetris.engine.Engine;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.*;
 
 /**
  * Created by Assassik on 25. 4. 2016.
@@ -14,13 +16,12 @@ import java.awt.event.KeyEvent;
 public class GamePanel extends JPanel {
 
 
-    private Timer timer;
-    private int tickNumber = 0;
+    private java.util.Timer timer;
 
     private final int FPS = 60;
 
     // number of ms betwean repainting squers
-    private final int FALL_SPEED = 500;
+    private final int FALL_SPEED = 250;
 
     private Engine engine;
 
@@ -32,20 +33,8 @@ public class GamePanel extends JPanel {
         System.out.println("FALL_SPEED: "+FALL_SPEED + " fall interval:"+ FALL_SPEED / (1000 / FPS));
         */
 
-        timer = new Timer(1000 / FPS, (ActionEvent e) -> {
-            tickNumber++;
-            if (tickNumber == FALL_SPEED / (1000 / FPS)) {
-                tickNumber = 0;
-                engine.tick();
-
-                if (engine.isGameOver()) {
-                    timer.stop();
-                }
-            }
-
-            repaint();
-        });
-
+        timer = new java.util.Timer();
+        timer.schedule(new RepaintTask(), 1000, 1000 / FPS);
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -69,8 +58,6 @@ public class GamePanel extends JPanel {
                 ;
             }
         });
-
-        timer.start();
     }
 
     @Override
@@ -90,7 +77,7 @@ public class GamePanel extends JPanel {
                 if (fileds[y][x] == null) {
                     continue;
                 }
-                
+
                 drawSquere(g, x * squareSize, y * squareSize, squareSize, fileds[y][x]);
                 //  System.out.println(x + ":"+y + "x: "+(x * squareSizeX) + " y:" + (y * squareSizeY));
             }
@@ -103,5 +90,24 @@ public class GamePanel extends JPanel {
 
         g.setColor(Color.GRAY);
         g.drawRect(x, y, size, size);
+    }
+
+    class RepaintTask extends TimerTask {
+
+        int tickNumber = 0;
+        @Override
+        public void run() {
+            tickNumber++;
+            if (tickNumber == (FALL_SPEED * FPS) / 1000) {
+                tickNumber = 0;
+                engine.tick();
+
+                if (engine.isGameOver()) {
+                    this.cancel();
+                }
+            }
+
+            repaint();
+        }
     }
 }

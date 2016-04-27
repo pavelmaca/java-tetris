@@ -184,7 +184,16 @@ public class Engine {
     }
 
     public void rotateShape() {
+
         actualShape.rotate();
+
+        // fix x position after rotating on sides
+        if(actualX < 0){
+            actualX = 0;
+        }else if(actualX + actualShape.getWidth() > colsCount){
+            actualX = colsCount - actualShape.getWidth();
+        }
+
     }
 
     public int getRowsCount() {

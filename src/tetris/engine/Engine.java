@@ -12,7 +12,7 @@ public class Engine {
      * První rozměr je výška, druhý šířka
      * Hodnota NULL představuje prázdnou plochu
      */
-    private Color[][] herniPole;
+    private Color[][] fileds;
 
     private Shape nextShape;
     private Shape actualShape = null;
@@ -29,29 +29,33 @@ public class Engine {
     ShapeGenerator generator = new ShapeGenerator();
 
     public Engine(int rowsCount, int colsCount) {
-        herniPole = new Color[rowsCount][colsCount];
+        fileds = new Color[rowsCount][colsCount];
         this.rowsCount = rowsCount;
         this.colsCount = colsCount;
 
+        nextShape = generator.createNext();
         creteNewShape();
         /* Test corners*/
         /*
-        herniPole[rowsCount-1][0] = Color.YELLOW;
-        herniPole[0][colsCount-1] = Color.BLUE;
-        herniPole[rowsCount-1][colsCount-1] = Color.RED;
-        herniPole[0][0] = Color.GREEN;*/
+        fileds[rowsCount-1][0] = Color.YELLOW;
+        fileds[0][colsCount-1] = Color.BLUE;
+        fileds[rowsCount-1][colsCount-1] = Color.RED;
+        fileds[0][0] = Color.GREEN;*/
     }
 
 
     protected void creteNewShape() {
-        actualShape = generator.createNext();
+        actualShape = nextShape;
         actualX = colsCount / 2;
         actualY = 0;
+
+        nextShape = generator.createNext();
     }
 
     public void tick() {
-        if (!isColision(actualX, actualY + 1)) {
-            actualY++;
+        int nextY = actualY +1;
+        if (!isColision(actualX, nextY)) {
+            actualY = nextY;
             System.out.println("tick");
         } else {
             saveShape();
@@ -70,7 +74,7 @@ public class Engine {
 
 
     protected void saveShape() {
-        margeFildsAndShape(herniPole, actualShape);
+        margeFildsAndShape(fileds, actualShape);
     }
 
     protected boolean isColision(int nextX, int nextY) {
@@ -87,7 +91,7 @@ public class Engine {
                 }
 
                 // field collision
-                if (herniPole[nextY + y][nextX + x] != null) {
+                if (fileds[nextY + y][nextX + x] != null) {
                     return true;
                 }
             }
@@ -101,7 +105,7 @@ public class Engine {
         for (int y = 0; y < rowsCount; y++) {
             boolean fullRow = true;
             for (int x = 0; x < colsCount; x++) {
-                if (herniPole[y][x] == null) {
+                if (fileds[y][x] == null) {
                     fullRow = false;
                     break;
                 }
@@ -118,8 +122,8 @@ public class Engine {
             }
 
             if (n > 0) {
-                Color[] oldRow = y - n < 0 ? new Color[colsCount] : herniPole[y - n];
-                herniPole[y] = oldRow;
+                Color[] oldRow = y - n < 0 ? new Color[colsCount] : fileds[y - n];
+                fileds[y] = oldRow;
             }
         }
     }
@@ -146,11 +150,11 @@ public class Engine {
     }
 
     protected Color[][] deepCopyFields() {
-        if (herniPole == null)
+        if (fileds == null)
             return null;
-        Color[][] result = new Color[herniPole.length][];
-        for (int r = 0; r < herniPole.length; r++) {
-            result[r] = herniPole[r].clone();
+        Color[][] result = new Color[fileds.length][];
+        for (int r = 0; r < fileds.length; r++) {
+            result[r] = fileds[r].clone();
         }
         return result;
     }

@@ -82,19 +82,26 @@ public class GamePanel extends JPanel {
 
         Color[][] fileds = engine.getGameFields();
 
+        // always use squere, so we need only one dimension
         int squareSize = getWidth() / engine.getColsCount();
-        int squareSizeY = getHeight() / engine.getRowsCount();
 
         for (int x = 0; x < engine.getColsCount(); x++) {
             for (int y = 0; y < engine.getRowsCount(); y++) {
                 if (fileds[y][x] == null) {
                     continue;
                 }
-
-                g.setColor(fileds[y][x]);
-                g.fillRect(x * squareSize, y * squareSizeY, squareSize, squareSizeY);
-                //  System.out.println(x + ":"+y + "x: "+(x * squareSize) + " y:" + (y * squareSizeY));
+                
+                drawSquere(g, x * squareSize, y * squareSize, squareSize, fileds[y][x]);
+                //  System.out.println(x + ":"+y + "x: "+(x * squareSizeX) + " y:" + (y * squareSizeY));
             }
         }
+    }
+
+    private void drawSquere(Graphics g, int x, int y, int size, Color bgColor) {
+        g.setColor(bgColor);
+        g.fillRect(x, y, size, size);
+
+        g.setColor(Color.GRAY);
+        g.drawRect(x, y, size, size);
     }
 }

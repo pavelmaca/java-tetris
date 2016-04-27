@@ -38,11 +38,6 @@ public class Shape {
 
 
     public void rotate() {
-        // skip colsCount is 0, nothing to do
-        if (points.length == 0) {
-            return;
-        }
-
         int width = getWidth();
         int height = getHeight();
 

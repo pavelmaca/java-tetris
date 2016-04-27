@@ -181,7 +181,7 @@ public class Engine {
     }
 
     public void rotateShape() {
-        actualShape.rotateRight();
+        actualShape.rotate();
     }
 
     public int getRowsCount() {

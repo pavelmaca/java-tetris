@@ -17,7 +17,7 @@ public class ShapeGenerator {
     public Shape createNext() {
         Shape newShape = getRandomType().create(randomColor());
 
-        randomFlip(newShape);
+      //  randomFlip(newShape); TODO flip
         randomRotation(newShape);
 
         return newShape;
@@ -31,11 +31,11 @@ public class ShapeGenerator {
     private void randomRotation(Shape shape) {
         switch (randomGenerator.nextInt(4)) {// 4 is intentionaly.. make no changes
             case 0:
-                shape.rotateLeft();
+                shape.rotate();
             case 1:
-                shape.rotateLeft();
+                shape.rotate();
             case 2:
-                shape.rotateLeft();
+                shape.rotate();
                 break;
         }
     }

@@ -20,11 +20,11 @@ public class Shape {
         this.color = color;
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return points.length;
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return points.length > 0 ? points[0].length : 0;
     }
 
@@ -36,12 +36,8 @@ public class Shape {
         points[y][x] = true;
     }
 
-    /* unused
-    public void removePoint(int x, int y) {
-        points[y][x] = false;
-    }*/
 
-    public void rotate(Direction direction) {
+    public void rotate() {
         // skip colsCount is 0, nothing to do
         if (points.length == 0) {
             return;
@@ -62,30 +58,16 @@ public class Shape {
                 int yBottom = yCount - 1 - yTop;
                 int xRight = xCount - 1 - xLeft;
 
-                if (direction == Direction.LEFT) {
-                    newShape[xLeft][yBottom] = points[yTop][xLeft];
-                    newShape[xLeft][yTop] = points[yBottom][xLeft];
-                    newShape[xRight][yTop] = points[yBottom][xRight];
-                    newShape[xRight][yBottom] = points[yTop][xRight];
-                } else {
-                    newShape[xLeft][yBottom] = points[yBottom][xRight];
-                    newShape[xLeft][yTop] = points[yTop][xRight];
-                    newShape[xRight][yTop] = points[yTop][xLeft];
-                    newShape[xRight][yBottom] = points[yBottom][xLeft];
-                }
+                // rotate right
+                newShape[xLeft][yBottom] = points[yBottom][xRight];
+                newShape[xLeft][yTop] = points[yTop][xRight];
+                newShape[xRight][yTop] = points[yTop][xLeft];
+                newShape[xRight][yBottom] = points[yBottom][xLeft];
             }
 
         }
 
         points = newShape;
-    }
-
-    public void rotateRight() {
-        rotate(Direction.RIGHT);
-    }
-
-    public void rotateLeft() {
-        rotate(Direction.LEFT);
     }
 
     public void flipVerticaly() {
@@ -117,22 +99,8 @@ public class Shape {
         }
     }
 
-    public boolean[][] getPoints(){
+    public boolean[][] getPoints() {
         return points;
     }
 
-
-    /**
-     * TODO:
-     * tvar:
-     * ##
-     * #
-     * ##
-     * Co když zavadí o horní levý okraj??
-     */
-    public void getColisionPoints() {
-        // musí vrátit všechny body o které je možné zavadit
-        // 1) nejnižší bod na řádku
-        // 2) krajní bod, který má pod sebou mezeru
-    }
 }

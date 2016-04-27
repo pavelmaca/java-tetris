@@ -51,6 +51,7 @@ public class GamePanel extends JPanel {
                     case KeyEvent.VK_DOWN:
                         engine.moveDown();
                         break;
+                    case KeyEvent.VK_UP:
                     case KeyEvent.VK_SPACE:
                         engine.rotateShape();
                         break;

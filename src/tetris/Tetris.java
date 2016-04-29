@@ -13,8 +13,8 @@ import java.awt.*;
  */
 public class Tetris {
     public static void main(String[] args) throws Exception {
-        int width = 20;
-        int height = 30;
+        int width = 17;
+        int height = 25;
         int squereSize = 15;
 
         Engine tetris = new Engine(height, width);

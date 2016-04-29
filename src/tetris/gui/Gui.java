@@ -13,11 +13,11 @@ import java.awt.*;
  */
 public class Gui {
 
-    JFrame frame;
+    private JFrame frame;
 
-    Engine engine;
+    private Engine engine;
 
-    int squereSize;
+    private int squereSize;
 
     public Gui(Engine engine, int squereSize) {
         this.engine = engine;

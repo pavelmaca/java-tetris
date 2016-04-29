@@ -14,13 +14,10 @@ import java.util.TimerTask;
 public class GamePanel extends JPanel {
 
 
-    private java.util.Timer timer;
-
     private final int FPS = 60;
-
     // number of ms betwean repainting squers
     private final int FALL_SPEED = 250;
-
+    private java.util.Timer timer;
     private Engine engine;
 
     public GamePanel(Engine engine) {

@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class ShapeGenerator {
 
-    protected Random randomGenerator;
+    private Random randomGenerator;
 
     public ShapeGenerator() {
         randomGenerator = new Random();

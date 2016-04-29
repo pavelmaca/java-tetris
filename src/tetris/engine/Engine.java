@@ -18,11 +18,11 @@ public class Engine {
 
     private Shape nextShape;
     private Shape actualShape = null;
-    int actualX;
-    int actualY;
+    private int actualX;
+    private int actualY;
 
-    int rowsCount;
-    int colsCount;
+    private int rowsCount;
+    private int colsCount;
 
     private boolean running = false;
 
@@ -31,7 +31,7 @@ public class Engine {
 
 
     private ArrayList<ScoreListener> scoreListeners = new ArrayList<>();
-    ShapeGenerator generator = new ShapeGenerator();
+    private ShapeGenerator generator = new ShapeGenerator();
 
     public Engine(int rowsCount, int colsCount) {
         fileds = new Color[rowsCount][colsCount];
@@ -219,10 +219,6 @@ public class Engine {
 
     public void pause() {
         this.running = false;
-    }
-
-    public int getScore() {
-        return score;
     }
 
     public void addScoreListener(ScoreListener listener) {

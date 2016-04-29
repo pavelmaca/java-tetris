@@ -163,6 +163,10 @@ public class Engine {
     }
 
     public void moveLeft() {
+        if (!running) {
+            return;
+        }
+
         int nextX = actualX - 1;
         if (!isColision(nextX, actualY)) {
             actualX = nextX;
@@ -170,6 +174,10 @@ public class Engine {
     }
 
     public void moveRight() {
+        if (!running) {
+            return;
+        }
+
         int nextX = actualX + 1;
         if (!isColision(nextX, actualY)) {
             actualX = nextX;
@@ -177,6 +185,10 @@ public class Engine {
     }
 
     public void moveDown() {
+        if (!running) {
+            return;
+        }
+
         int nextY = actualY + 1;
         if (!isColision(actualX, nextY)) {
             actualY = nextY;
@@ -184,6 +196,10 @@ public class Engine {
     }
 
     public void rotateShape() {
+        if (!running) {
+            return;
+        }
+        
         actualShape.rotate();
 
         // check collision after rotation

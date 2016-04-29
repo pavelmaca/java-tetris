@@ -43,20 +43,23 @@ public class GamePanel extends JPanel {
 
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
+                    case KeyEvent.VK_A:
                         engine.moveLeft();
                         break;
                     case KeyEvent.VK_RIGHT:
+                    case KeyEvent.VK_D:
                         engine.moveRight();
                         break;
                     case KeyEvent.VK_DOWN:
+                    case KeyEvent.VK_S:
                         engine.moveDown();
                         break;
                     case KeyEvent.VK_UP:
                     case KeyEvent.VK_SPACE:
+                    case KeyEvent.VK_W:
                         engine.rotateShape();
                         break;
                 }
-                ;
             }
         });
     }
@@ -93,7 +96,7 @@ public class GamePanel extends JPanel {
         g.drawRect(x, y, size, size);
     }
 
-    class RepaintTask extends TimerTask {
+    private class RepaintTask extends TimerTask {
 
         int tickNumber = 0;
         @Override

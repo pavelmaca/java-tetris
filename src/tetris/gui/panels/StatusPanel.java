@@ -1,13 +1,9 @@
 package tetris.gui.panels;
 
 import tetris.engine.Engine;
-import tetris.engine.ScoreListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 /**
  * Created by Assassik on 25. 4. 2016.
@@ -40,7 +36,7 @@ public class StatusPanel extends JPanel {
 
         // Listen to score changes
         engine.addScoreListener(score -> {
-            scoreLabel.setText(""+score);
+            scoreLabel.setText("" + score);
         });
     }
 

@@ -58,7 +58,7 @@ public class Engine {
     }
 
     public void tick() {
-        if(!running){
+        if (!running) {
             return;
         }
 
@@ -122,7 +122,7 @@ public class Engine {
             }
             if (!fullRow) {
                 cleanFilds[n--] = fileds[y];
-            }else{
+            } else {
                 score += getColsCount();
                 preformeScoreEvent();
             }
@@ -213,23 +213,23 @@ public class Engine {
         return colsCount;
     }
 
-    public void start(){
+    public void start() {
         this.running = true;
     }
 
-    public void pause(){
+    public void pause() {
         this.running = false;
     }
 
-    public int getScore(){
+    public int getScore() {
         return score;
     }
 
-    public void addScoreListener(ScoreListener listener){
+    public void addScoreListener(ScoreListener listener) {
         scoreListeners.add(listener);
     }
 
-    private void preformeScoreEvent(){
+    private void preformeScoreEvent() {
         scoreListeners.forEach(new Consumer<ScoreListener>() {
             @Override
             public void accept(ScoreListener listener) {

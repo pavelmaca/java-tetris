@@ -1,12 +1,7 @@
 package tetris;
 
 import tetris.engine.Engine;
-import tetris.engine.Shape;
-import tetris.engine.ShapeGenerator;
-
 import tetris.gui.Gui;
-
-import java.awt.*;
 
 /**
  * Created by Assassik on 6. 4. 2016.

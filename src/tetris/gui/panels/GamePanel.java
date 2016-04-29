@@ -3,12 +3,10 @@ package tetris.gui.panels;
 import tetris.engine.Engine;
 
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.*;
+import java.util.TimerTask;
 
 /**
  * Created by Assassik on 25. 4. 2016.
@@ -99,6 +97,7 @@ public class GamePanel extends JPanel {
     private class RepaintTask extends TimerTask {
 
         int tickNumber = 0;
+
         @Override
         public void run() {
             tickNumber++;

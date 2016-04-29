@@ -62,14 +62,9 @@ public class Gui {
 
     private JPanel renderStatus() {
         JPanel statusPanel = new StatusPanel(engine);
-        frame.add(statusPanel);
 
-        JButton btn = new JButton("Start");
-        // btn.setSize(10, 200);
-        btn.addActionListener((actionEvent) -> {
-            System.out.println(actionEvent.getActionCommand());
-        });
-        statusPanel.add(btn);
+        statusPanel.setPreferredSize(new Dimension(100, 10));
+        frame.add(statusPanel);
 
         return statusPanel;
     }

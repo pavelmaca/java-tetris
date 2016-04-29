@@ -1,6 +1,8 @@
 package tetris.engine;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.function.Consumer;
 
 /**
  * Created by Assassik on 7. 4. 2016.
@@ -22,10 +24,13 @@ public class Engine {
     int rowsCount;
     int colsCount;
 
+    private boolean running = false;
+
     private int score = 0;
     private boolean gameOver = false;
 
 
+    private ArrayList<ScoreListener> scoreListeners = new ArrayList<>();
     ShapeGenerator generator = new ShapeGenerator();
 
     public Engine(int rowsCount, int colsCount) {
@@ -53,6 +58,10 @@ public class Engine {
     }
 
     public void tick() {
+        if(!running){
+            return;
+        }
+
         int nextY = actualY + 1;
         if (!isColision(actualX, nextY)) {
             actualY = nextY;
@@ -113,6 +122,9 @@ public class Engine {
             }
             if (!fullRow) {
                 cleanFilds[n--] = fileds[y];
+            }else{
+                score += getColsCount();
+                preformeScoreEvent();
             }
         }
 
@@ -199,5 +211,30 @@ public class Engine {
 
     public int getColsCount() {
         return colsCount;
+    }
+
+    public void start(){
+        this.running = true;
+    }
+
+    public void pause(){
+        this.running = false;
+    }
+
+    public int getScore(){
+        return score;
+    }
+
+    public void addScoreListener(ScoreListener listener){
+        scoreListeners.add(listener);
+    }
+
+    private void preformeScoreEvent(){
+        scoreListeners.forEach(new Consumer<ScoreListener>() {
+            @Override
+            public void accept(ScoreListener listener) {
+                listener.onChange(score);
+            }
+        });
     }
 }

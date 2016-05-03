@@ -69,7 +69,7 @@ public class Gui {
     private JPanel renderStatus() {
         JPanel statusPanel = new StatusPanel(engine);
 
-        statusPanel.setPreferredSize(new Dimension(100, 10));
+        statusPanel.setPreferredSize(new Dimension(125, 10));
         frame.add(statusPanel);
 
         return statusPanel;

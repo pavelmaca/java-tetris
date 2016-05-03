@@ -15,7 +15,7 @@ public class ShapeGenerator {
     }
 
     public Shape createNext() {
-        Shape newShape = getRandomType().create(randomColor());
+        Shape newShape = getRandomType().create();
 
         randomFlip(newShape);
         randomRotation(newShape);
@@ -48,16 +48,10 @@ public class ShapeGenerator {
         }
     }
 
-    private Color randomColor() {
-        final Color[] colors = {
-                Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN
-        };
-        return colors[randomGenerator.nextInt(colors.length)];
-    }
-
     private enum Type {
         LINE {
-            public Shape create(Color color) {
+            Color color = Color.MAGENTA;
+            public Shape create() {
                 Shape line = new Shape(3, 3, color);
                 line.addPoint(1, 0);
                 line.addPoint(1, 1);
@@ -67,7 +61,8 @@ public class ShapeGenerator {
             }
         },
         CORNER {
-            public Shape create(Color color) {
+            Color color = Color.ORANGE;
+            public Shape create() {
                 Shape corner = new Shape(2, 2, color);
                 corner.addPoint(0, 0);
                 corner.addPoint(0, 1);
@@ -76,7 +71,8 @@ public class ShapeGenerator {
             }
         },
         T {
-            public Shape create(Color color) {
+            Color color = Color.GREEN;
+            public Shape create() {
                 Shape t = new Shape(3, 3, color);
                 t.addPoint(0, 0);
                 t.addPoint(0, 1);
@@ -86,7 +82,8 @@ public class ShapeGenerator {
             }
         },
         SQUARE {
-            public Shape create(Color color) {
+            Color color = Color.RED;
+            public Shape create() {
                 Shape square = new Shape(2, 2, color);
                 square.addPoint(0, 0);
                 square.addPoint(0, 1);
@@ -96,7 +93,8 @@ public class ShapeGenerator {
             }
         },
         N {
-            public Shape create(Color color) {
+            Color color = Color.YELLOW;
+            public Shape create() {
                 Shape n = new Shape(3, 3, color);
                 n.addPoint(0, 0);
                 n.addPoint(0, 1);
@@ -106,7 +104,8 @@ public class ShapeGenerator {
             }
         },
         L {
-            public Shape create(Color color) {
+            Color color = Color.BLUE;
+            public Shape create() {
                 Shape l = new Shape(3, 3, color);
                 l.addPoint(0, 0);
                 l.addPoint(0, 1);
@@ -116,7 +115,7 @@ public class ShapeGenerator {
             }
         };
 
-        public abstract Shape create(Color color);
+        public abstract Shape create();
     }
 
 }

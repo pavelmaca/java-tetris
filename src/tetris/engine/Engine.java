@@ -1,5 +1,7 @@
 package tetris.engine;
 
+import tetris.engine.events.GameStatusListener;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -27,10 +29,9 @@ public class Engine {
     private boolean running = false;
 
     private int score = 0;
-    private boolean gameOver = false;
 
 
-    private ArrayList<ScoreListener> scoreListeners = new ArrayList<>();
+    private ArrayList<GameStatusListener> gameStatusListeners = new ArrayList<>();
     private ShapeGenerator generator = new ShapeGenerator();
 
     public Engine(int rowsCount, int colsCount) {
@@ -55,6 +56,12 @@ public class Engine {
         actualY = 0;
 
         nextShape = generator.createNext();
+        gameStatusListeners.forEach(new Consumer<GameStatusListener>() {
+            @Override
+            public void accept(GameStatusListener listener) {
+                listener.shapeChaned(nextShape);
+            }
+        });
     }
 
     public void tick() {
@@ -71,16 +78,11 @@ public class Engine {
             cleanFields();
             creteNewShape();
             if (isColision(actualX, actualY)) {
-                gameOver = true;
+                performGameEndEvent();
             }
             System.out.println("collision");
         }
     }
-
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
 
     protected void saveShape() {
         margeFildsAndShape(fileds, actualShape);
@@ -124,7 +126,7 @@ public class Engine {
                 cleanFilds[n--] = fileds[y];
             } else {
                 score += getColsCount();
-                preformeScoreEvent();
+                performScoreChangeEvent();
             }
         }
 
@@ -237,16 +239,33 @@ public class Engine {
         this.running = false;
     }
 
-    public void addScoreListener(ScoreListener listener) {
-        scoreListeners.add(listener);
+    public void addGameStatusListener(GameStatusListener listener) {
+        gameStatusListeners.add(listener);
     }
 
-    private void preformeScoreEvent() {
-        scoreListeners.forEach(new Consumer<ScoreListener>() {
+    private void performScoreChangeEvent() {
+        gameStatusListeners.forEach(new Consumer<GameStatusListener>() {
             @Override
-            public void accept(ScoreListener listener) {
-                listener.onChange(score);
+            public void accept(GameStatusListener listener) {
+                listener.scoreChange(score);
             }
         });
+    }
+
+    private void performGameEndEvent() {
+        gameStatusListeners.forEach(new Consumer<GameStatusListener>() {
+            @Override
+            public void accept(GameStatusListener listener) {
+                listener.gameEnd();
+            }
+        });
+    }
+
+    public Shape getNextShape() {
+        return nextShape;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

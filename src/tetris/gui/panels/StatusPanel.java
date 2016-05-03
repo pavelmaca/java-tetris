@@ -1,6 +1,8 @@
 package tetris.gui.panels;
 
-import tetris.engine.Engine;
+import tetris.engine.*;
+import tetris.engine.Shape;
+import tetris.engine.events.GameStatusAdapter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,8 +37,21 @@ public class StatusPanel extends JPanel {
         add(scoreLabel);
 
         // Listen to score changes
-        engine.addScoreListener(score -> {
-            scoreLabel.setText("" + score);
+        engine.addGameStatusListener(new GameStatusAdapter() {
+            @Override
+            public void scoreChange(int score) {
+                scoreLabel.setText("" + score);
+            }
+
+            @Override
+            public void gameEnd() {
+                scoreLabel.setEnabled(false);
+            }
+
+            @Override
+            public void shapeChaned(Shape shape) {
+                repaint();
+            }
         });
     }
 
@@ -44,6 +59,17 @@ public class StatusPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        //score.setText("Skóre je: " + engine.getScore());
+        Shape nextShape = engine.getNextShape();
+        boolean[][] points = nextShape.getPoints();
+
+        for(int x = 0; x < nextShape.getWidth(); x++){
+            for (int y = 0; y < nextShape.getHeight(); y++) {
+                if(points[y][x]){
+                    g.setColor(nextShape.getColor());
+                    g.fillRect(20 + x * 10, 50+ y*10, 10,10);
+                }
+
+            }
+        }
     }
 }

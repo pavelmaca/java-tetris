@@ -2,6 +2,7 @@ package tetris.gui;
 
 
 import tetris.engine.Engine;
+import tetris.engine.events.GameStatusAdapter;
 import tetris.gui.panels.GamePanel;
 import tetris.gui.panels.StatusPanel;
 
@@ -33,6 +34,12 @@ public class Gui {
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 
         renderGame();
+        engine.addGameStatusListener(new GameStatusAdapter() {
+            @Override
+            public void gameEnd() {
+                showScoreDialog();
+            }
+        });
 
         renderStatus();
 
@@ -43,7 +50,6 @@ public class Gui {
         frame.setLocationRelativeTo(null); //run in center of screen
 
         frame.setVisible(true);
-
     }
 
     private JPanel renderGame() {
@@ -67,6 +73,16 @@ public class Gui {
         frame.add(statusPanel);
 
         return statusPanel;
+    }
+
+    private void showScoreDialog() {
+        String playerName = (String) JOptionPane.showInputDialog(frame,
+                "Scóre: " + engine.getScore() + "\n" +
+                        "Vaše jméno:",
+                "Konec hry",
+                JOptionPane.ERROR_MESSAGE);
+
+        System.out.println("Game over loser!");
     }
 
 

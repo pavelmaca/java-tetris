@@ -1,11 +1,13 @@
 package tetris.gui.panels;
 
 import tetris.engine.Engine;
+import tetris.engine.events.GameStatusAdapter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.util.TimerTask;
 
 /**
@@ -30,6 +32,13 @@ public class GamePanel extends JPanel {
 
         timer = new java.util.Timer();
         timer.schedule(new RepaintTask(), 1000, 1000 / FPS);
+
+        engine.addGameStatusListener(new GameStatusAdapter() {
+            @Override
+            public void gameEnd() {
+                timer.cancel();
+            }
+        });
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -101,12 +110,6 @@ public class GamePanel extends JPanel {
             if (tickNumber == (FALL_SPEED * FPS) / 1000) {
                 tickNumber = 0;
                 engine.tick();
-
-                if (engine.isGameOver()) {
-                    System.out.println("Game over!");
-                    System.out.println("Deal with it...");
-                    this.cancel();
-                }
             }
 
             repaint();

@@ -8,8 +8,8 @@ import tetris.gui.Gui;
  */
 public class Tetris {
     public static void main(String[] args) throws Exception {
-        int width = 17;
-        int height = 25;
+        int width = 10;
+        int height = 15;
         int squereSize = 15;
 
         Engine tetris = new Engine(height, width);

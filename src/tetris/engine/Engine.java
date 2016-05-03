@@ -35,9 +35,9 @@ public class Engine {
     private ShapeGenerator generator = new ShapeGenerator();
 
     public Engine(int rowsCount, int colsCount) {
-        fileds = new Color[rowsCount][colsCount];
         this.rowsCount = rowsCount;
         this.colsCount = colsCount;
+        initFileds();
 
         nextShape = generator.createNext();
         creteNewShape();
@@ -52,7 +52,7 @@ public class Engine {
 
     protected void creteNewShape() {
         actualShape = nextShape;
-        actualX = colsCount / 2;
+        actualX = colsCount / 2 - actualShape.getWidth() / 2;
         actualY = 0;
 
         nextShape = generator.createNext();
@@ -201,7 +201,7 @@ public class Engine {
         if (!running) {
             return;
         }
-        
+
         actualShape.rotate();
 
         // check collision after rotation
@@ -267,5 +267,19 @@ public class Engine {
 
     public int getScore() {
         return score;
+    }
+
+    private void initFileds() {
+        fileds = new Color[rowsCount][colsCount];
+    }
+
+    public void restart() {
+        pause();
+
+        score = 0;
+        initFileds();
+        nextShape = generator.createNext();
+        creteNewShape();
+        performScoreChangeEvent();
     }
 }

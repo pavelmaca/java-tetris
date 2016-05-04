@@ -25,7 +25,7 @@ public class StatusPanel extends JPanel {
 
         createScoreLabel();
 
-        add(Box.createVerticalStrut(10));
+        add(Box.createVerticalStrut(5));
 
         JLabel nextLabel = new JLabel();
         nextLabel.setText("Další:");
@@ -44,7 +44,7 @@ public class StatusPanel extends JPanel {
         boolean[][] points = nextShape.getPoints();
 
         int size = 10;
-        int yStart = 170;
+        int yStart = 180;
         int xStart = getWidth() / 2 - nextShape.getWidth() / 2 * size;
         for (int x = 0; x < nextShape.getWidth(); x++) {
             for (int y = 0; y < nextShape.getHeight(); y++) {
@@ -58,7 +58,17 @@ public class StatusPanel extends JPanel {
     }
 
     private void creteAllButtons() {
-        add(Box.createVerticalStrut(20));
+        add(Box.createVerticalStrut(7));
+
+        JComboBox<String> difficulty = new JComboBox<>();
+        difficulty.addItem("Lehké");
+        difficulty.addItem("Střední");
+        difficulty.addItem("Těžké");
+        difficulty.setSelectedIndex(1);
+        difficulty.setMaximumSize(new Dimension(100, 20));
+        add(difficulty);
+
+        add(Box.createVerticalStrut(7));
 
         // Start - pause - continue
         JButton btnStart = new JButton("Start");
@@ -67,10 +77,23 @@ public class StatusPanel extends JPanel {
         btnStart.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(btnStart);
 
+        add(Box.createVerticalStrut(7));
+
+        // Restart
+        JButton btnRestart = new JButton("Restart");
+        //  btnRestart.setEnabled(false);
+        btnRestart.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnRestart.setFocusable(false); // otherwise, it would steel focus from game
+        btnRestart.setEnabled(false);
+        add(btnRestart);
+
+        // Listenre - Start - pause - continue
         btnStart.addActionListener((actionEvent) -> {
             String command = actionEvent.getActionCommand();
             if (command.equals("Start") || command.equals("Pokračovat")) {
                 engine.start();
+                difficulty.setEnabled(false);
+                btnRestart.setEnabled(true);
                 btnStart.setText("Pauza");
             } else {
                 engine.pause();
@@ -78,18 +101,13 @@ public class StatusPanel extends JPanel {
             }
         });
 
-        add(Box.createVerticalStrut(10));
 
-        // Restart
-        JButton btnRestart = new JButton("Restart");
-        //  btnRestart.setEnabled(false);
-        btnRestart.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnRestart.setFocusable(false); // otherwise, it would steel focus from game
-        add(btnRestart);
-
+        // Listener - Restart
         btnRestart.addActionListener((actionEvent) -> {
             engine.restart();
             btnStart.setText("Start");
+            btnRestart.setEnabled(false);
+            difficulty.setEnabled(true);
         });
     }
 

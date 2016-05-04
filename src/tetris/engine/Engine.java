@@ -19,7 +19,7 @@ public class Engine {
     private Color[][] fileds;
 
     private Shape nextShape;
-    private Shape actualShape = null;
+    private Shape actualShape;
     private int actualX;
     private int actualY;
 
@@ -41,12 +41,6 @@ public class Engine {
 
         nextShape = generator.createNext();
         creteNewShape();
-        /* Test corners*/
-        /*
-        fileds[rowsCount-1][0] = Color.YELLOW;
-        fileds[0][colsCount-1] = Color.BLUE;
-        fileds[rowsCount-1][colsCount-1] = Color.RED;
-        fileds[0][0] = Color.GREEN;*/
     }
 
 
@@ -59,7 +53,7 @@ public class Engine {
         gameStatusListeners.forEach(new Consumer<GameStatusListener>() {
             @Override
             public void accept(GameStatusListener listener) {
-                listener.shapeChaned(nextShape);
+                listener.shapeChange(nextShape);
             }
         });
     }
@@ -220,7 +214,6 @@ public class Engine {
         } else if (actualX + actualShape.getWidth() > colsCount) {
             actualX = colsCount - actualShape.getWidth();
         }
-
     }
 
     public int getRowsCount() {

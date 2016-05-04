@@ -9,5 +9,5 @@ public interface GameStatusListener {
 
     void scoreChange(int score);
     void gameEnd();
-    void shapeChaned(Shape shape);
+    void shapeChange(Shape shape);
 }

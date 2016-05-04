@@ -15,6 +15,6 @@ public abstract class GameStatusAdapter implements GameStatusListener {
     }
 
     @Override
-    public void shapeChaned(Shape shape){
+    public void shapeChange(Shape shape){
     }
 }

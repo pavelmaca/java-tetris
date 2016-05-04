@@ -98,7 +98,7 @@ public class StatusPanel extends JPanel {
             }
 
             @Override
-            public void shapeChaned(Shape shape) {
+            public void shapeChange(Shape shape) {
                 repaint();
             }
         });

@@ -11,20 +11,12 @@ import java.util.function.Consumer;
  */
 public class Engine {
 
-    /**
-     * Herní plocha tvořená souřadnicemi x a y
-     * První rozměr je výška, druhý šířka
-     * Hodnota NULL představuje prázdnou plochu
-     */
-    private Color[][] fileds;
+    private FieldStorage storage;
 
     private Shape nextShape;
     private Shape actualShape;
     private int actualX;
     private int actualY;
-
-    private int rowsCount;
-    private int colsCount;
 
     private boolean running = false;
 
@@ -35,9 +27,7 @@ public class Engine {
     private ShapeGenerator generator = new ShapeGenerator();
 
     public Engine(int rowsCount, int colsCount) {
-        this.rowsCount = rowsCount;
-        this.colsCount = colsCount;
-        initFileds();
+        storage = new FieldStorage(rowsCount, colsCount);
 
         nextShape = generator.createNext();
         creteNewShape();
@@ -46,7 +36,7 @@ public class Engine {
 
     protected void creteNewShape() {
         actualShape = nextShape;
-        actualX = colsCount / 2 - actualShape.getWidth() / 2;
+        actualX = storage.getColsCount() / 2 - actualShape.getWidth() / 2;
         actualY = 0;
 
         nextShape = generator.createNext();
@@ -64,98 +54,27 @@ public class Engine {
         }
 
         int nextY = actualY + 1;
-        if (!isColision(actualX, nextY)) {
+        if (!storage.isCollision(actualShape, actualX, nextY)) {
             actualY = nextY;
             System.out.println("tick");
         } else {
-            saveShape();
-            cleanFields();
+            storage.saveShape(actualShape, actualX, actualY);
+            int removedCount= storage.removeFullRows();
+            if(removedCount > 0){
+                performScoreChangeEvent();
+                score += removedCount;
+            }
+            
             creteNewShape();
-            if (isColision(actualX, actualY)) {
+            if (storage.isCollision(actualShape, actualX, actualY)) {
                 performGameEndEvent();
             }
             System.out.println("collision");
         }
     }
 
-    protected void saveShape() {
-        margeFildsAndShape(fileds, actualShape);
-    }
-
-    protected boolean isColision(int nextX, int nextY) {
-        boolean[][] points = actualShape.getPoints();
-        for (int x = 0; x < actualShape.getWidth(); x++) {
-            for (int y = 0; y < actualShape.getHeight(); y++) {
-                if (!points[y][x]) {
-                    continue;
-                }
-
-                // sides and bottom collision
-                if (nextX + x >= colsCount || nextX + x < 0 || nextY + y >= rowsCount) {
-                    return true;
-                }
-
-                // field collision
-                if (fileds[nextY + y][nextX + x] != null) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    protected void cleanFields() {
-        Color[][] cleanFilds = new Color[rowsCount][colsCount];
-        int n = rowsCount - 1;
-        for (int y = rowsCount - 1; y > 0; y--) {
-            boolean fullRow = true;
-            for (int x = 0; x < colsCount; x++) {
-                if (fileds[y][x] == null) {
-                    fullRow = false;
-                    break;
-                }
-            }
-            if (!fullRow) {
-                cleanFilds[n--] = fileds[y];
-            } else {
-                score += getColsCount();
-                performScoreChangeEvent();
-            }
-        }
-
-        fileds = cleanFilds;
-    }
-
-
-    public Color[][] getGameFields() {
-        Color[][] fields = deepCopyFields();
-        return margeFildsAndShape(fields, actualShape);
-    }
-
-    protected Color[][] margeFildsAndShape(Color[][] fields, Shape shape) {
-
-        boolean[][] points = shape.getPoints();
-
-        for (int y = 0; y < points.length; y++) {
-            for (int x = 0; x < points[y].length; x++) {
-                if (points[y][x]) {
-                    fields[actualY + y][actualX + x] = actualShape.getColor();
-                }
-            }
-        }
-
-        return fields;
-    }
-
-    protected Color[][] deepCopyFields() {
-        if (fileds == null)
-            return null;
-        Color[][] result = new Color[fileds.length][];
-        for (int r = 0; r < fileds.length; r++) {
-            result[r] = fileds[r].clone();
-        }
-        return result;
+    public Color[][] getStatus() {
+        return storage.printStatus(actualShape, actualX, actualY);
     }
 
     public void moveLeft() {
@@ -164,7 +83,7 @@ public class Engine {
         }
 
         int nextX = actualX - 1;
-        if (!isColision(nextX, actualY)) {
+        if (!storage.isCollision(actualShape, nextX, actualY)) {
             actualX = nextX;
         }
     }
@@ -175,7 +94,7 @@ public class Engine {
         }
 
         int nextX = actualX + 1;
-        if (!isColision(nextX, actualY)) {
+        if (!storage.isCollision(actualShape, nextX, actualY)) {
             actualX = nextX;
         }
     }
@@ -186,7 +105,7 @@ public class Engine {
         }
 
         int nextY = actualY + 1;
-        if (!isColision(actualX, nextY)) {
+        if (!storage.isCollision(actualShape, actualX, nextY)) {
             actualY = nextY;
         }
     }
@@ -199,7 +118,7 @@ public class Engine {
         actualShape.rotate();
 
         // check collision after rotation
-        if (isColision(actualX, actualY)) {
+        if (storage.isCollision(actualShape, actualX, actualY)) {
             // rotate back to original state and exit
             // TODO: create rotateBack () ??
             actualShape.rotate();
@@ -211,17 +130,17 @@ public class Engine {
         // fix x position after rotating on sides
         if (actualX < 0) {
             actualX = 0;
-        } else if (actualX + actualShape.getWidth() > colsCount) {
-            actualX = colsCount - actualShape.getWidth();
+        } else if (actualX + actualShape.getWidth() > storage.getColsCount()) {
+            actualX = storage.getColsCount() - actualShape.getWidth();
         }
     }
 
     public int getRowsCount() {
-        return rowsCount;
+        return storage.getRowsCount();
     }
 
     public int getColsCount() {
-        return colsCount;
+        return storage.getColsCount();
     }
 
     public void start() {
@@ -262,15 +181,12 @@ public class Engine {
         return score;
     }
 
-    private void initFileds() {
-        fileds = new Color[rowsCount][colsCount];
-    }
 
     public void restart() {
         pause();
 
         score = 0;
-        initFileds();
+        storage.initStorage();
         nextShape = generator.createNext();
         creteNewShape();
         performScoreChangeEvent();

@@ -21,13 +21,19 @@ public class StatusPanel extends JPanel {
         setLayout(boxLayout);
 
         creteAllButtons();
+        //add(Box.createHorizontalStrut(50));
 
         createScoreLabel();
 
+        add(Box.createVerticalStrut(10));
+
         JLabel nextLabel = new JLabel();
         nextLabel.setText("Další:");
-
+        nextLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(nextLabel);
+
+        add(Box.createVerticalGlue());
+
     }
 
     @Override
@@ -37,18 +43,23 @@ public class StatusPanel extends JPanel {
         Shape nextShape = engine.getNextShape();
         boolean[][] points = nextShape.getPoints();
 
+        int size = 10;
+        int yStart = 170;
+        int xStart = getWidth() / 2 - nextShape.getWidth() / 2 * size;
         for (int x = 0; x < nextShape.getWidth(); x++) {
             for (int y = 0; y < nextShape.getHeight(); y++) {
                 if (points[y][x]) {
                     g.setColor(nextShape.getColor());
-                    g.fillRect(20 + x * 10, 50 + y * 10, 10, 10);
+                    g.fillRect(xStart + x * size, yStart + y * size, size, size);
                 }
 
             }
         }
     }
 
-    private void creteAllButtons(){
+    private void creteAllButtons() {
+        add(Box.createVerticalStrut(20));
+
         // Start - pause - continue
         JButton btnStart = new JButton("Start");
         // btnStart.setPreferredSize(new Dimension(100, 30));
@@ -67,6 +78,8 @@ public class StatusPanel extends JPanel {
             }
         });
 
+        add(Box.createVerticalStrut(10));
+
         // Restart
         JButton btnRestart = new JButton("Restart");
         //  btnRestart.setEnabled(false);
@@ -74,22 +87,31 @@ public class StatusPanel extends JPanel {
         btnRestart.setFocusable(false); // otherwise, it would steel focus from game
         add(btnRestart);
 
-        btnRestart.addActionListener((actionEvent)->{
+        btnRestart.addActionListener((actionEvent) -> {
             engine.restart();
             btnStart.setText("Start");
         });
     }
 
-    private void createScoreLabel(){
+    private void createScoreLabel() {
+        add(Box.createVerticalStrut(10));
+
         JLabel scoreLabel = new JLabel();
-        scoreLabel.setText("Skóre :" + engine.getScore());
+        scoreLabel.setText("Skóre");
+        scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(scoreLabel);
+
+        JLabel scoreValueLabel = new JLabel();
+        scoreValueLabel.setFont(new Font("Serif", Font.BOLD, 20));
+        scoreValueLabel.setText("" + engine.getScore() );
+        scoreValueLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(scoreValueLabel);
 
         // Listen to score changes
         engine.addGameStatusListener(new GameStatusAdapter() {
             @Override
             public void scoreChange(int score) {
-                scoreLabel.setText("Skóre :" + score);
+                scoreValueLabel.setText("" + score );
             }
 
             @Override

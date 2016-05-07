@@ -4,10 +4,9 @@ import tetris.engine.events.GameStatusListener;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
 /**
- * Created by Assassik on 7. 4. 2016.
+ * Created by Pavel Máca on 7. 4. 2016.
  */
 public class Engine {
 
@@ -43,12 +42,7 @@ public class Engine {
         actualY = 0;
 
         nextShape = generator.createNext();
-        gameStatusListeners.forEach(new Consumer<GameStatusListener>() {
-            @Override
-            public void accept(GameStatusListener listener) {
-                listener.shapeChange(nextShape);
-            }
-        });
+        gameStatusListeners.forEach(listener -> listener.shapeChange());
     }
 
     public void tick() {
@@ -145,21 +139,11 @@ public class Engine {
     }
 
     private void performScoreChangeEvent() {
-        gameStatusListeners.forEach(new Consumer<GameStatusListener>() {
-            @Override
-            public void accept(GameStatusListener listener) {
-                listener.scoreChange(score);
-            }
-        });
+        gameStatusListeners.forEach(listener -> listener.scoreChange(score));
     }
 
     private void performGameEndEvent() {
-        gameStatusListeners.forEach(new Consumer<GameStatusListener>() {
-            @Override
-            public void accept(GameStatusListener listener) {
-                listener.gameEnd();
-            }
-        });
+        gameStatusListeners.forEach(listener -> listener.gameEnd());
     }
 
     public Shape getNextShape() {

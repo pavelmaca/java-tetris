@@ -1,7 +1,7 @@
 package tetris.engine;
 
 /**
- * Created by Assassik on 5. 5. 2016.
+ * Created by Pavel Máca on 5. 5. 2016.
  */
 public enum Difficulty {
     EASY("Lehká", 1, 350),
@@ -25,10 +25,6 @@ public enum Difficulty {
     @Override
     public String toString() {
         return description;
-    }
-
-    public Difficulty getDefault() {
-        return MEDIUM;
     }
 
     public int getFallSpeed() {

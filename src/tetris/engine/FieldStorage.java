@@ -3,7 +3,7 @@ package tetris.engine;
 import java.awt.*;
 
 /**
- * Created by Assassik on 4. 5. 2016.
+ * Created by Pavel Máca on 4. 5. 2016.
  */
 class FieldStorage {
 
@@ -39,6 +39,8 @@ class FieldStorage {
      * Add shape to memory
      *
      * @param shape
+     * @param xPosition
+     * @param yPosition
      */
     public void saveShape(Shape shape, int xPosition, int yPosition) {
         margeShapeIntoFields(fileds, shape, xPosition, yPosition);

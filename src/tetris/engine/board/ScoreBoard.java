@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 /**
- * Created by Pavel on 7.5.2016.
+ * Created by Pavel Máca on 7.5.2016.
  */
 public class ScoreBoard {
 
@@ -64,11 +64,9 @@ public class ScoreBoard {
             System.out.println("board: no data file, creating new board");
         } catch (IOException i) {
             i.printStackTrace();
-            return;
         } catch (ClassNotFoundException c) {
             System.out.println("Record class not found");
             c.printStackTrace();
-            return;
         }
     }
 

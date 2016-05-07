@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Assassik on 25. 4. 2016.
+ * Created by Pavel Máca on 25. 4. 2016.
  */
 public class StatusPanel extends JPanel {
 
@@ -54,9 +54,7 @@ public class StatusPanel extends JPanel {
         btnBoard.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(btnBoard);
 
-        btnBoard.addActionListener((eventListener) -> {
-            showScoreBoard();
-        });
+        btnBoard.addActionListener((eventListener) -> showScoreBoard());
 
 
         add(Box.createVerticalStrut(7));
@@ -173,14 +171,14 @@ public class StatusPanel extends JPanel {
             }
 
             @Override
-            public void shapeChange(Shape shape) {
+            public void shapeChange() {
                 repaint();
             }
         });
     }
 
     private void showScoreDialog() {
-        String playerName = (String) JOptionPane.showInputDialog(this,
+        String playerName = JOptionPane.showInputDialog(this,
                 "Scóre: " + engine.getScore() + "\n" +
                         "Vaše jméno:",
                 "Konec hry",

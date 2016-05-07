@@ -4,7 +4,7 @@ import tetris.engine.Engine;
 import tetris.gui.Gui;
 
 /**
- * Created by Assassik on 6. 4. 2016.
+ * Created by Pavel Máca on 6. 4. 2016.
  */
 public class Tetris {
     public static void main(String[] args) throws Exception {

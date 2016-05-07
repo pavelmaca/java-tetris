@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Assassik on 6. 4. 2016.
+ * Created by Pavel Máca on 6. 4. 2016.
  */
 public class Gui {
 
@@ -45,7 +45,7 @@ public class Gui {
         frame.setVisible(true);
     }
 
-    private JPanel renderGame() {
+    private void renderGame() {
         JPanel gamePanel = new GamePanel(engine);
         frame.add(gamePanel);
 
@@ -55,17 +55,13 @@ public class Gui {
         gamePanel.setPreferredSize(panelSize);
 
         gamePanel.setFocusable(true); // set focus for key events
-
-        return gamePanel;
     }
 
-    private JPanel renderStatus() {
+    private void renderStatus() {
         JPanel statusPanel = new StatusPanel(engine);
 
         statusPanel.setPreferredSize(new Dimension(125, 10));
         frame.add(statusPanel);
-
-        return statusPanel;
     }
 
 }

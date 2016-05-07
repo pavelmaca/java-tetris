@@ -1,9 +1,7 @@
 package tetris.engine.events;
 
-import tetris.engine.Shape;
-
 /**
- * Created by Assassik on 2. 5. 2016.
+ * Created by Pavel Máca on 2. 5. 2016.
  */
 public interface GameStatusListener {
 
@@ -11,5 +9,5 @@ public interface GameStatusListener {
 
     void gameEnd();
 
-    void shapeChange(Shape shape);
+    void shapeChange();
 }

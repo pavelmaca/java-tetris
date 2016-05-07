@@ -2,9 +2,6 @@ package tetris.gui;
 
 
 import tetris.engine.Engine;
-import tetris.engine.board.Record;
-import tetris.engine.board.ScoreBoard;
-import tetris.engine.events.GameStatusAdapter;
 import tetris.gui.panels.GamePanel;
 import tetris.gui.panels.StatusPanel;
 
@@ -31,7 +28,7 @@ public class Gui {
         frame = new JFrame("Tetris");
 
         // end program after window exit
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 

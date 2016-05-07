@@ -1,7 +1,6 @@
 package tetris.gui.panels;
 
 import tetris.engine.Engine;
-import tetris.engine.events.GameStatusAdapter;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,9 +1,7 @@
 package tetris.engine.board;
 
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * Created by Pavel on 7.5.2016.
@@ -33,6 +31,7 @@ public class Record implements Serializable, Comparable<Record> {
 
     /**
      * DESC order
+     *
      * @param o
      * @return
      */

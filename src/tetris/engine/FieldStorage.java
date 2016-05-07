@@ -1,7 +1,5 @@
 package tetris.engine;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.awt.*;
 
 /**
@@ -116,12 +114,12 @@ class FieldStorage {
         return fields;
     }
 
-    public Color[][] printStatus(Shape shape, int xPosition, int yPosition){
-            Color[][] copyFields = deepCopyOfFileds(fileds);
+    public Color[][] printStatus(Shape shape, int xPosition, int yPosition) {
+        Color[][] copyFields = deepCopyOfFileds(fileds);
         return margeShapeIntoFields(copyFields, shape, xPosition, yPosition);
     }
 
-    private Color[][] deepCopyOfFileds(Color[][] fieldsToCopy){
+    private Color[][] deepCopyOfFileds(Color[][] fieldsToCopy) {
         if (fieldsToCopy == null)
             return null;
         Color[][] result = new Color[fieldsToCopy.length][];

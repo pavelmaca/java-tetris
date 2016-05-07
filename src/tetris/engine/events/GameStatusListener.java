@@ -8,6 +8,8 @@ import tetris.engine.Shape;
 public interface GameStatusListener {
 
     void scoreChange(int score);
+
     void gameEnd();
+
     void shapeChange(Shape shape);
 }

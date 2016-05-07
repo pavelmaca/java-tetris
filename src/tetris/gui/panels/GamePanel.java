@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.util.TimerTask;
 
 /**
@@ -17,28 +16,15 @@ public class GamePanel extends JPanel {
 
 
     private final int FPS = 60;
-    // number of ms betwean repainting squers
-    private final int FALL_SPEED = 250;
+
     private java.util.Timer timer;
     private Engine engine;
 
     public GamePanel(Engine engine) {
         this.engine = engine;
 
-        /*
-        System.out.println("FPS : "+FPS + " interval: "+(1000/FPS));
-        System.out.println("FALL_SPEED: "+FALL_SPEED + " fall interval:"+ FALL_SPEED / (1000 / FPS));
-        */
-
         timer = new java.util.Timer();
         timer.schedule(new RepaintTask(), 1000, 1000 / FPS);
-
-        engine.addGameStatusListener(new GameStatusAdapter() {
-            @Override
-            public void gameEnd() {
-                timer.cancel();
-            }
-        });
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -75,7 +61,7 @@ public class GamePanel extends JPanel {
         // Background
         setBackground(Color.LIGHT_GRAY);
 
-        Color[][] fileds = engine.getGameFields();
+        Color[][] fileds = engine.getStatus();
 
         // always use squere, so we need only one dimension
         int squareSize = getWidth() / engine.getColsCount();
@@ -86,13 +72,12 @@ public class GamePanel extends JPanel {
                     continue;
                 }
 
-                drawSquere(g, x * squareSize, y * squareSize, squareSize, fileds[y][x]);
-                //  System.out.println(x + ":"+y + "x: "+(x * squareSizeX) + " y:" + (y * squareSizeY));
+                drawSquare(g, x * squareSize, y * squareSize, squareSize, fileds[y][x]);
             }
         }
     }
 
-    private void drawSquere(Graphics g, int x, int y, int size, Color bgColor) {
+    private void drawSquare(Graphics g, int x, int y, int size, Color bgColor) {
         g.setColor(bgColor);
         g.fillRect(x, y, size, size);
 
@@ -107,7 +92,7 @@ public class GamePanel extends JPanel {
         @Override
         public void run() {
             tickNumber++;
-            if (tickNumber == (FALL_SPEED * FPS) / 1000) {
+            if (tickNumber >= (engine.getDifficulty().getFallSpeed() * FPS) / 1000) {
                 tickNumber = 0;
                 engine.tick();
             }

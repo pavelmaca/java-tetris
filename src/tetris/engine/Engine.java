@@ -20,10 +20,13 @@ public class Engine {
 
     private boolean running = false;
 
+    private Difficulty difficulty = Difficulty.MEDIUM;
+
     private int score = 0;
 
 
     private ArrayList<GameStatusListener> gameStatusListeners = new ArrayList<>();
+
     private ShapeGenerator generator = new ShapeGenerator();
 
     public Engine(int rowsCount, int colsCount) {
@@ -34,7 +37,7 @@ public class Engine {
     }
 
 
-    protected void creteNewShape() {
+    private void creteNewShape() {
         actualShape = nextShape;
         actualX = storage.getColsCount() / 2 - actualShape.getWidth() / 2;
         actualY = 0;
@@ -49,27 +52,19 @@ public class Engine {
     }
 
     public void tick() {
-        if (!running) {
-            return;
-        }
-
-        int nextY = actualY + 1;
-        if (!storage.isCollision(actualShape, actualX, nextY)) {
-            actualY = nextY;
-            System.out.println("tick");
-        } else {
+        if (running && !moveDown()) {
             storage.saveShape(actualShape, actualX, actualY);
-            int removedCount= storage.removeFullRows();
-            if(removedCount > 0){
+            int removedCount = storage.removeFullRows();
+            if (removedCount > 0) {
+                score += removedCount * storage.getColsCount() * difficulty.getScoreCoeficient();
                 performScoreChangeEvent();
-                score += removedCount;
             }
-            
+
             creteNewShape();
             if (storage.isCollision(actualShape, actualX, actualY)) {
+                running = false;
                 performGameEndEvent();
             }
-            System.out.println("collision");
         }
     }
 
@@ -77,37 +72,31 @@ public class Engine {
         return storage.printStatus(actualShape, actualX, actualY);
     }
 
-    public void moveLeft() {
-        if (!running) {
-            return;
-        }
+    private boolean tryMove(int nextX, int nextY) {
+        return running && !storage.isCollision(actualShape, nextX, nextY);
+    }
 
+    public void moveLeft() {
         int nextX = actualX - 1;
-        if (!storage.isCollision(actualShape, nextX, actualY)) {
+        if (tryMove(nextX, actualY)) {
             actualX = nextX;
         }
     }
 
     public void moveRight() {
-        if (!running) {
-            return;
-        }
-
         int nextX = actualX + 1;
-        if (!storage.isCollision(actualShape, nextX, actualY)) {
+        if (tryMove(nextX, actualY)) {
             actualX = nextX;
         }
     }
 
-    public void moveDown() {
-        if (!running) {
-            return;
-        }
-
+    public boolean moveDown() {
         int nextY = actualY + 1;
-        if (!storage.isCollision(actualShape, actualX, nextY)) {
+        if (tryMove(actualX, nextY)) {
             actualY = nextY;
+            return true;
         }
+        return false;
     }
 
     public void rotateShape() {
@@ -181,7 +170,6 @@ public class Engine {
         return score;
     }
 
-
     public void restart() {
         pause();
 
@@ -190,5 +178,17 @@ public class Engine {
         nextShape = generator.createNext();
         creteNewShape();
         performScoreChangeEvent();
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 }

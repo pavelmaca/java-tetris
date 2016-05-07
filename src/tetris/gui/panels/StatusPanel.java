@@ -1,7 +1,10 @@
 package tetris.gui.panels;
 
-import tetris.engine.*;
+import tetris.engine.Difficulty;
+import tetris.engine.Engine;
 import tetris.engine.Shape;
+import tetris.engine.board.Record;
+import tetris.engine.board.ScoreBoard;
 import tetris.engine.events.GameStatusAdapter;
 
 import javax.swing.*;
@@ -12,7 +15,14 @@ import java.awt.*;
  */
 public class StatusPanel extends JPanel {
 
+    private final String BTN_START = "Start";
+    private final String BTN_PAUSE = "Pauza";
+    private final String BTN_CONTINUE = "Pokračovat";
+    private final String BTN_RESTART = "Restart";
+
     private Engine engine;
+
+    private ScoreBoard scoreBoard = new ScoreBoard("score_board.dat");
 
     public StatusPanel(Engine engine) {
         this.engine = engine;
@@ -20,8 +30,11 @@ public class StatusPanel extends JPanel {
         BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(boxLayout);
 
-        creteAllButtons();
-        //add(Box.createHorizontalStrut(50));
+        add(Box.createVerticalStrut(7));
+
+        creteButtons();
+
+        add(Box.createVerticalStrut(10));
 
         createScoreLabel();
 
@@ -32,8 +45,21 @@ public class StatusPanel extends JPanel {
         nextLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(nextLabel);
 
+
         add(Box.createVerticalGlue());
 
+        // Top score
+        JButton btnBoard = new JButton("Top skóre");
+        btnBoard.setFocusable(false); // otherwise, it would steel focus from game
+        btnBoard.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(btnBoard);
+
+        btnBoard.addActionListener((eventListener) -> {
+            showScoreBoard();
+        });
+
+
+        add(Box.createVerticalStrut(7));
     }
 
     @Override
@@ -57,21 +83,27 @@ public class StatusPanel extends JPanel {
         }
     }
 
-    private void creteAllButtons() {
-        add(Box.createVerticalStrut(7));
+    private void creteButtons() {
+        JComboBox<Difficulty> difficulty = new JComboBox<>();
+        for (Difficulty difficultyLevel : Difficulty.values()) {
+            difficulty.addItem(difficultyLevel);
+        }
+        difficulty.setSelectedItem(engine.getDifficulty());
 
-        JComboBox<String> difficulty = new JComboBox<>();
-        difficulty.addItem("Lehké");
-        difficulty.addItem("Střední");
-        difficulty.addItem("Těžké");
-        difficulty.setSelectedIndex(1);
         difficulty.setMaximumSize(new Dimension(100, 20));
         add(difficulty);
+
+        difficulty.addActionListener((actionEvent) -> {
+                    if (actionEvent.getSource().equals(difficulty)) {
+                        engine.setDifficulty((Difficulty) difficulty.getSelectedItem());
+                    }
+                }
+        );
 
         add(Box.createVerticalStrut(7));
 
         // Start - pause - continue
-        JButton btnStart = new JButton("Start");
+        JButton btnStart = new JButton(BTN_START);
         // btnStart.setPreferredSize(new Dimension(100, 30));
         btnStart.setFocusable(false); // otherwise, it would steel focus from game
         btnStart.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -80,7 +112,7 @@ public class StatusPanel extends JPanel {
         add(Box.createVerticalStrut(7));
 
         // Restart
-        JButton btnRestart = new JButton("Restart");
+        JButton btnRestart = new JButton(BTN_RESTART);
         //  btnRestart.setEnabled(false);
         btnRestart.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnRestart.setFocusable(false); // otherwise, it would steel focus from game
@@ -90,14 +122,14 @@ public class StatusPanel extends JPanel {
         // Listenre - Start - pause - continue
         btnStart.addActionListener((actionEvent) -> {
             String command = actionEvent.getActionCommand();
-            if (command.equals("Start") || command.equals("Pokračovat")) {
+            if (command.equals(BTN_START) || command.equals(BTN_CONTINUE)) {
                 engine.start();
                 difficulty.setEnabled(false);
                 btnRestart.setEnabled(true);
-                btnStart.setText("Pauza");
+                btnStart.setText(BTN_PAUSE);
             } else {
                 engine.pause();
-                btnStart.setText("Pokračovat");
+                btnStart.setText(BTN_CONTINUE);
             }
         });
 
@@ -105,15 +137,23 @@ public class StatusPanel extends JPanel {
         // Listener - Restart
         btnRestart.addActionListener((actionEvent) -> {
             engine.restart();
-            btnStart.setText("Start");
+            btnStart.setText(BTN_START);
+            btnStart.setEnabled(true);
             btnRestart.setEnabled(false);
             difficulty.setEnabled(true);
+        });
+
+        engine.addGameStatusListener(new GameStatusAdapter() {
+            @Override
+            public void gameEnd() {
+                btnStart.setEnabled(false);
+
+                showScoreDialog();
+            }
         });
     }
 
     private void createScoreLabel() {
-        add(Box.createVerticalStrut(10));
-
         JLabel scoreLabel = new JLabel();
         scoreLabel.setText("Skóre");
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -121,7 +161,7 @@ public class StatusPanel extends JPanel {
 
         JLabel scoreValueLabel = new JLabel();
         scoreValueLabel.setFont(new Font("Serif", Font.BOLD, 20));
-        scoreValueLabel.setText("" + engine.getScore() );
+        scoreValueLabel.setText("" + engine.getScore());
         scoreValueLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(scoreValueLabel);
 
@@ -129,12 +169,7 @@ public class StatusPanel extends JPanel {
         engine.addGameStatusListener(new GameStatusAdapter() {
             @Override
             public void scoreChange(int score) {
-                scoreValueLabel.setText("" + score );
-            }
-
-            @Override
-            public void gameEnd() {
-                scoreLabel.setEnabled(false);
+                scoreValueLabel.setText("" + score);
             }
 
             @Override
@@ -142,5 +177,50 @@ public class StatusPanel extends JPanel {
                 repaint();
             }
         });
+    }
+
+    private void showScoreDialog() {
+        String playerName = (String) JOptionPane.showInputDialog(this,
+                "Scóre: " + engine.getScore() + "\n" +
+                        "Vaše jméno:",
+                "Konec hry",
+                JOptionPane.ERROR_MESSAGE);
+
+        Record actualRecord = null;
+        if (playerName != null) {
+            actualRecord = scoreBoard.saveScore(playerName, engine.getScore());
+            scoreBoard.saveData();
+        }
+
+        showScoreBoard(actualRecord);
+
+    }
+
+    private void showScoreBoard() {
+        showScoreBoard(null);
+    }
+
+    private void showScoreBoard(Record actualRecord) {
+
+        int topLimit = 10;
+        Record[] list = scoreBoard.getTop(topLimit);
+
+        String textBoard = "Top " + topLimit + " skóre:\n";
+        for (int i = 1; i <= list.length; i++) {
+            if (list[i - 1] == null) break;
+
+            textBoard += i + ". \t" + list[i - 1].getScore() + " : \t" + list[i - 1].getPlayerName() + "\n";
+        }
+
+        if(actualRecord != null) {
+            textBoard += "\n";
+            textBoard += "Vaše pozice: \n"+scoreBoard.getPosition(actualRecord) + ". " + actualRecord.getScore() + " : " + actualRecord.getPlayerName();
+        }
+
+
+        boolean running = engine.isRunning();
+        if(running) engine.pause();
+        JOptionPane.showMessageDialog(this, textBoard, "Žebříček", JOptionPane.INFORMATION_MESSAGE);
+        if(running) engine.start();
     }
 }

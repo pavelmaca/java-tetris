@@ -7,7 +7,7 @@ import java.awt.*;
 /**
  * Created by Assassik on 4. 5. 2016.
  */
-public class FieldStorage {
+class FieldStorage {
 
     private Color[][] fileds;
 
@@ -52,10 +52,13 @@ public class FieldStorage {
      * @return
      */
     public int removeFullRows() {
-        int count = 0;
-        Color[][] cleanFilds = new Color[rowsCount][colsCount];
-        int n = rowsCount - 1;
-        for (int y = rowsCount - 1; y > 0; y--) {
+        int count = 0; // nuber of removed rows
+
+        Color[][] cleanedFilds = new Color[rowsCount][colsCount]; // new array with removed rows
+
+        int n = rowsCount - 1; // current row in new array
+
+        for (int y = n; y > 0; y--) {
             boolean fullRow = true;
             for (int x = 0; x < colsCount; x++) {
                 if (fileds[y][x] == null) {
@@ -64,13 +67,13 @@ public class FieldStorage {
                 }
             }
             if (!fullRow) {
-                cleanFilds[n--] = fileds[y];
+                cleanedFilds[n--] = fileds[y];
             } else {
                 count++;
             }
         }
 
-        fileds = cleanFilds;
+        fileds = cleanedFilds;
         return count;
     }
 

@@ -1,5 +1,6 @@
 package tetris.engine;
 
+import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import java.awt.*;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by Pavel on 8.5.2016.
@@ -53,7 +55,7 @@ public class FieldStorageRemovingTest {
         fs.saveShape(sHorizontal, 0, 0);
         assertEquals(1, fs.removeFullRows());
 
-        assertArrayEquals(eOneRow, fs.printStatus(null, 0, 0));
+        assertThat(fs.printStatus(null, 0, 0), Is.is(eOneRow));
     }
 
     @Test
@@ -62,7 +64,7 @@ public class FieldStorageRemovingTest {
         fs.saveShape(sHorizontal, 0, 1);
         assertEquals(2, fs.removeFullRows());
 
-        assertArrayEquals(eTwoRows, fs.printStatus(null, 0, 0));
+        assertThat(fs.printStatus(null, 0, 0), Is.is(eTwoRows));
     }
 
 
@@ -71,7 +73,7 @@ public class FieldStorageRemovingTest {
         fs.saveShape(sHorizontal, 0, 4);
         assertEquals(1, fs.removeFullRows());
 
-        assertArrayEquals(eOneRow, fs.printStatus(null, 0, 0));
+        assertThat(fs.printStatus(null, 0, 0), Is.is(eOneRow));
     }
 
     @Test
@@ -80,7 +82,7 @@ public class FieldStorageRemovingTest {
         fs.saveShape(sHorizontal, 0, 3);
         assertEquals(2, fs.removeFullRows());
 
-        assertArrayEquals(eTwoRows, fs.printStatus(null, 0, 0));
+        assertThat(fs.printStatus(null, 0, 0), Is.is(eTwoRows));
     }
 
     @Test
@@ -88,7 +90,7 @@ public class FieldStorageRemovingTest {
         fs.saveShape(sHorizontal, 0, 2);
         assertEquals(1, fs.removeFullRows());
 
-        assertArrayEquals(eOneRow, fs.printStatus(null, 0, 0));
+        assertThat(fs.printStatus(null, 0, 0), Is.is(eOneRow));
     }
 
     @Test
@@ -97,7 +99,7 @@ public class FieldStorageRemovingTest {
         fs.saveShape(sHorizontal, 0, 1);
         assertEquals(2, fs.removeFullRows());
 
-        assertArrayEquals(eTwoRows, fs.printStatus(null, 0, 0));
+        assertThat(fs.printStatus(null, 0, 0), Is.is(eTwoRows));
     }
 
 
@@ -112,7 +114,7 @@ public class FieldStorageRemovingTest {
                 {Color.red, null, Color.red},
                 {Color.red, null, Color.red},
         };
-        assertArrayEquals(eZeroRows, fs.printStatus(null, 0, 0));
+        assertThat(fs.printStatus(null, 0, 0), Is.is(eZeroRows));
     }
 
 
@@ -134,7 +136,7 @@ public class FieldStorageRemovingTest {
                 {null, null, null},
                 {null, null, null},
         };
-        assertArrayEquals(eAllRows, fs.printStatus(null, 0, 0));
+        assertThat(fs.printStatus(null, 0, 0), Is.is(eAllRows));
     }
 
 

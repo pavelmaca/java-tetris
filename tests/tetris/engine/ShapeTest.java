@@ -1,5 +1,6 @@
 package tetris.engine;
 
+import org.hamcrest.core.Is;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -8,6 +9,7 @@ import java.awt.*;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by Pavel on 8.5.2016.
@@ -62,7 +64,7 @@ public class ShapeTest {
                 {false, false},
                 {false, false},
         };
-        assertArrayEquals(e1, s1.getPoints());
+        assertThat(s1.getPoints(), Is.is(e1));
     }
 
     @Test
@@ -73,7 +75,7 @@ public class ShapeTest {
         };
 
         Shape s = new Shape(e, Color.black);
-        assertArrayEquals(e, s.getPoints());
+        assertThat(s.getPoints(), Is.is(e));
     }
 
 }

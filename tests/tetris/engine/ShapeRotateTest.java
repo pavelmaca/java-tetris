@@ -1,5 +1,6 @@
 package tetris.engine;
 
+import org.hamcrest.core.Is;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -7,6 +8,7 @@ import org.junit.rules.ExpectedException;
 import java.awt.*;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by Pavel on 8.5.2016.
@@ -39,14 +41,14 @@ public class ShapeRotateTest {
                 {true, false},
         };
         s1.rotate();
-        assertArrayEquals(e1, s1.getPoints());
+        assertThat(s1.getPoints(), Is.is(e1));
 
         boolean[][] e2 = {
                 {true, true, true},
                 {false, false, true},
         };
         s1.rotate();
-        assertArrayEquals(e2, s1.getPoints());
+        assertThat(s1.getPoints(), Is.is(e2));
 
         boolean[][] e3 = {
                 {false, true},
@@ -54,11 +56,11 @@ public class ShapeRotateTest {
                 {true, true},
         };
         s1.rotate();
-        assertArrayEquals(e3, s1.getPoints());
+        assertThat(s1.getPoints(), Is.is(e3));
 
 
         s1.rotate();
-        assertArrayEquals(e0, s1.getPoints());
+        assertThat(s1.getPoints(), Is.is(e0));
     }
 
     @Test
@@ -76,14 +78,14 @@ public class ShapeRotateTest {
                 {false, true},
         };
         s1.rotate();
-        assertArrayEquals(e1, s1.getPoints());
+        assertThat(s1.getPoints(), Is.is(e1));
 
         boolean[][] e2 = {
                 {false, true, false},
                 {true, true, true},
         };
         s1.rotate();
-        assertArrayEquals(e2, s1.getPoints());
+        assertThat(s1.getPoints(), Is.is(e2));
 
         boolean[][] e3 = {
                 {true, false},
@@ -91,11 +93,11 @@ public class ShapeRotateTest {
                 {true, false},
         };
         s1.rotate();
-        assertArrayEquals(e3, s1.getPoints());
+        assertThat(s1.getPoints(), Is.is(e3));
 
 
         s1.rotate();
-        assertArrayEquals(e0, s1.getPoints());
+        assertThat(s1.getPoints(), Is.is(e0));
     }
 
     @Test
@@ -109,11 +111,11 @@ public class ShapeRotateTest {
 
         Shape s1 = new Shape(e1, Color.black);
         s1.rotate();
-        assertArrayEquals(e2, s1.getPoints());
+        assertThat(s1.getPoints(), Is.is(e2));
 
         Shape s2 = new Shape(e2, Color.black);
         s2.rotate();
-        assertArrayEquals(e2, s2.getPoints());
+        assertThat(s2.getPoints(), Is.is(e2));
 
     }
 }

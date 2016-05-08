@@ -1,5 +1,6 @@
 package tetris.engine.board;
 
+import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,7 +40,7 @@ public class ScoreBoardTest {
     @Test
     public void invalidDataFile() {
         ScoreBoard sb2 = new ScoreBoard("invalid/gfg**t");
-        assertArrayEquals(new Record[1], sb2.getTop(1));
+        assertThat(sb2.getTop(1), Is.is(new Record[1]));
     }
 
     @Test

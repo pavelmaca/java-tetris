@@ -1,5 +1,7 @@
 package tetris.engine;
 
+import org.hamcrest.core.Is;
+import org.hamcrest.core.IsNot;
 import org.junit.Before;
 import org.junit.Test;
 import tetris.engine.events.GameStatusAdapter;
@@ -92,7 +94,7 @@ public class EngineTest {
             public void shapeChange() {
                 eventCalled = true;
 
-                assertNotEquals(prevShape, engine.getNextShape());
+                assertThat(engine.getNextShape(), IsNot.not(prevShape));
             }
         });
 
@@ -118,7 +120,7 @@ public class EngineTest {
         // make sure last row is not empty
         makeEngineTick(engine.getRowsCount() * 2);
         Color[][] status = engine.getStatus();
-        assertNotEquals(empty, status[engine.getRowsCount() - 1]);
+        assertThat(status[engine.getRowsCount() - 1], IsNot.not(empty));
 
         // save next shape before restart
         Shape prevShape = engine.getNextShape();
@@ -129,11 +131,11 @@ public class EngineTest {
         assertTrue(eventCalled);
 
         // next shape must be different
-        assertNotEquals(prevShape, engine.getNextShape());
+        assertThat(engine.getNextShape(), IsNot.not(prevShape));
 
         // Check if last row is empty
         Color[][] status2 = engine.getStatus();
-        assertArrayEquals(empty, status2[engine.getRowsCount() - 1]);
+        assertThat(status2[engine.getRowsCount() - 1], Is.is(empty));
     }
 
 

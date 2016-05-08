@@ -1,5 +1,6 @@
 package tetris.engine;
 
+import org.hamcrest.core.Is;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -7,6 +8,7 @@ import org.junit.rules.ExpectedException;
 import java.awt.*;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by Pavel on 8.5.2016.
@@ -29,19 +31,19 @@ public class ShapeFlipTest {
                 {false, true, true},
         };
         s1.flip();
-        assertArrayEquals(e1, s1.getPoints());
+        assertThat(s1.getPoints(), Is.is(e1));
     }
 
     @Test
     public void flipOnePoint() throws Exception {
 
-        boolean[][] e2 = {
+        boolean[][] e1 = {
                 {true},
         };
-        Shape s2 = new Shape(e2, Color.black);
+        Shape s1 = new Shape(e1, Color.black);
 
-        s2.flip();
-        assertArrayEquals(e2, s2.getPoints());
+        s1.flip();
+        assertThat(s1.getPoints(), Is.is(e1));
     }
 
 
@@ -52,6 +54,6 @@ public class ShapeFlipTest {
         };
         Shape s1 = new Shape(e1, Color.black);
         s1.flip();
-        assertArrayEquals(e1, s1.getPoints());
+        assertThat(s1.getPoints(), Is.is(e1));
     }
 }

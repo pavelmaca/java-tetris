@@ -1,12 +1,13 @@
 package tetris.engine;
 
+import org.hamcrest.core.Is;
+import org.hamcrest.core.IsNot;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by Pavel on 8.5.2016.
@@ -18,7 +19,7 @@ public class EngineMovementsTest {
 
     @Before
     public void setUp() throws Exception {
-        engine = new Engine(10, 10);
+        engine = new Engine(10, 20);
         engine.start();
 
         empty = new Color[10][10];
@@ -29,7 +30,7 @@ public class EngineMovementsTest {
         Color[][] status1 = engine.getStatus();
 
         engine.moveLeft();
-        assertNotEquals(status1, engine.getStatus());
+        assertThat(engine.getStatus(), IsNot.not(status1));
 
         // move to left side
         for (int i = 0; i < engine.getColsCount(); i++) {
@@ -37,10 +38,10 @@ public class EngineMovementsTest {
         }
 
         Color[][] status2 = engine.getStatus();
-        assertNotEquals(empty, status2); // not outside field
+        assertThat(status2, IsNot.not(empty)); // not outside field
 
         engine.moveLeft(); // nothing should happend
-        assertArrayEquals(status2, engine.getStatus());
+        assertThat(engine.getStatus(), Is.is(status2));
     }
 
     @Test
@@ -48,7 +49,7 @@ public class EngineMovementsTest {
         Color[][] status1 = engine.getStatus();
 
         engine.moveRight();
-        assertNotEquals(status1, engine.getStatus());
+        assertThat(engine.getStatus(), IsNot.not(status1));
 
         // move to right side
         for (int i = 0; i < engine.getColsCount(); i++) {
@@ -56,10 +57,10 @@ public class EngineMovementsTest {
         }
 
         Color[][] status2 = engine.getStatus();
-        assertNotEquals(empty, status2); // not outside field
+        assertThat(status2, IsNot.not(empty)); // not outside field
 
         engine.moveRight(); // nothing should happend
-        assertArrayEquals(status2, engine.getStatus());
+        assertThat(engine.getStatus(), Is.is(status2));
     }
 
     @Test
@@ -67,7 +68,7 @@ public class EngineMovementsTest {
         Color[][] status1 = engine.getStatus();
 
         engine.moveDown(); // moved
-        assertNotEquals(status1, engine.getStatus());
+        assertThat(engine.getStatus(), IsNot.not(status1));
 
         // move to bottum
         for (int i = 0; i < engine.getRowsCount(); i++) {
@@ -75,53 +76,57 @@ public class EngineMovementsTest {
         }
 
         Color[][] status2 = engine.getStatus();
-        assertNotEquals(empty, status2); // not outside field
+        assertThat(status2, IsNot.not(empty)); // not outside field
 
         engine.moveDown(); // nothing should happend
-        assertArrayEquals(status2, engine.getStatus());
+        assertThat(engine.getStatus(), Is.is(status2));
     }
 
     @Test
     public void rotate() {
-        Color[][] status1 = engine.getStatus();
-
-        engine.rotateShape();
-        Color[][] status2 = engine.getStatus();
-
-        assertNotEquals(status1, status2);
-
-        engine.rotateShape();
-        engine.rotateShape();
-        engine.rotateShape();
-
-        assertArrayEquals(status1, engine.getStatus());
+        for (int i = 0; i < 100; i++) {
+            if(!isSquareInMiddle(engine.getStatus())) {
+                rotateSingle();
+            }
+            engine.restart();
+            engine.start();
+        }
     }
 
 
     @Test
     public void rotateOnLeft() {
-        for (int i = 0; i < 100; i++) {
+        for (int j = 0; j < 100; j++) {
+            if(!isSquareInMiddle(engine.getStatus())){
+                moveToLeft();
+                rotateSingle();
+            }
             engine.restart();
-            moveToLeft();
-            rotate();
+            engine.start();
         }
     }
 
     @Test
     public void rotateOnRight() {
-        for (int i = 0; i < 100; i++) {
+        for (int j = 0; j < 100; j++) {
+            if(!isSquareInMiddle(engine.getStatus())){
+                moveToRight();
+                rotateSingle();
+            }
             engine.restart();
-            moveToRight();
-            rotate();
+            engine.start();
         }
     }
 
     @Test
     public void rotateOnButtom() {
         for (int i = 0; i < 100; i++) {
+            if(!isSquareInMiddle(engine.getStatus())) {
+                moveDown();
+                rotateSingle();
+            }
             engine.restart();
-            moveDown();
-            rotate();
+            engine.start();
         }
     }
 
@@ -130,7 +135,27 @@ public class EngineMovementsTest {
         for (int i = 0; i < 5; i++) {
             Color[][] status1 = engine.getStatus();
             engine.tick(); // moved
-            assertNotEquals(status1, engine.getStatus());
+            assertThat(engine.getStatus(), IsNot.not(status1));
         }
     }
+
+    private void rotateSingle() {
+        Color[][] firstStatus = engine.getStatus();
+
+        for (int i = 0; i < 4; i++) {
+            Color[][] beforeStatus = engine.getStatus();
+            engine.rotateShape();
+            assertThat(engine.getStatus(), IsNot.not(beforeStatus));
+        }
+        assertThat(engine.getStatus(), Is.is(firstStatus));
+    }
+
+    private boolean isSquareInMiddle(Color[][] status){
+        int middle = engine.getColsCount() / 2;
+        return (status[0][middle - 1] != null
+                && status[0][middle - 1] != null
+                && status[1][middle] != null
+                && status[1][middle] != null);
+    }
+
 }

@@ -1,5 +1,6 @@
 package tetris.engine;
 
+import org.hamcrest.core.Is;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -8,6 +9,7 @@ import java.awt.*;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by Pavel on 8.5.2016.
@@ -83,7 +85,7 @@ public class FieldStorageTest {
                 {null, null, null, null, null},
         };
 
-        assertArrayEquals(e1, result1);
+        assertThat(result1, Is.is(e1));
 
         fs.saveShape(s, 3, 3);
         Color[][] result2 = fs.printStatus(null, 0, 0);
@@ -95,7 +97,7 @@ public class FieldStorageTest {
                 {null, null, null, null, Color.green},
         };
 
-        assertArrayEquals(e2, result2);
+        assertThat(result2, Is.is(e2));
     }
 
     @Test
@@ -115,7 +117,7 @@ public class FieldStorageTest {
                 {null, null, Color.green},
         };
 
-        assertArrayEquals(e, result);
+        assertThat(result, Is.is(e));
     }
 
 
@@ -142,7 +144,7 @@ public class FieldStorageTest {
                 {null, null, null, null, null},
         };
 
-        assertArrayEquals(e1, result1);
+        assertThat(result1, Is.is(e1));
     }
 
 
@@ -155,7 +157,7 @@ public class FieldStorageTest {
                 {null, null},
         };
 
-        assertArrayEquals(e1, fs.printStatus(null, 0, 0));
+        assertThat( fs.printStatus(null, 0, 0), Is.is(e1));
     }
 
     @Test
@@ -168,7 +170,7 @@ public class FieldStorageTest {
                 {null, Color.BLUE},
                 {null, Color.BLUE},
         };
-        assertArrayEquals(e2, fs.printStatus(s1, 1, 0));
+        assertThat( fs.printStatus(s1, 1, 0), Is.is(e2));
     }
 
     @Test

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactManager">
+    <artifact type="jar" name="Tetris:jar">
+      <output-path>$PROJECT_DIR$/out/artifacts/Tetris_jar</output-path>
+      <root id="archive" name="Tetris.jar">
+        <element id="module-output" name="Tetris" />
+      </root>
+    </artifact>
+  </component>
   <component name="Behat">
     <behat_settings>
       <BehatSettings />

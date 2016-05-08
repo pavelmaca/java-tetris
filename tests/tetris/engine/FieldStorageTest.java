@@ -1,58 +1,183 @@
 package tetris.engine;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.*;
+import java.awt.*;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Pavel on 8.5.2016.
  */
 public class FieldStorageTest {
-    @Before
-    public void setUp() throws Exception {
 
-    }
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
-    @After
-    public void tearDown() throws Exception {
-
+    @Test
+    public void createNew() {
+        FieldStorage fs = new FieldStorage(10, 20);
+        assertEquals(10, fs.getRowsCount());
+        assertEquals(20, fs.getColsCount());
     }
 
     @Test
-    public void getRowsCount() throws Exception {
-
+    public void createNewEmpty() {
+        FieldStorage fs = new FieldStorage(0, 0);
+        assertEquals(0, fs.getRowsCount());
+        assertEquals(0, fs.getColsCount());
     }
 
     @Test
-    public void getColsCount() throws Exception {
+    public void createNewInvalidRows() {
+        exception.expect(NegativeArraySizeException.class);
+        new FieldStorage(-10, 20);
+    }
 
+
+    @Test
+    public void createNewInvalidCols() {
+        exception.expect(NegativeArraySizeException.class);
+        new FieldStorage(10, -20);
     }
 
     @Test
-    public void initStorage() throws Exception {
+    public void getRowsCount() {
+        FieldStorage fs = new FieldStorage(152, 0);
+        assertEquals(152, fs.getRowsCount());
 
+        FieldStorage fs2 = new FieldStorage(0, 10);
+        assertEquals(0, fs2.getRowsCount());
     }
 
     @Test
-    public void saveShape() throws Exception {
+    public void getColsCount() {
+        FieldStorage fs = new FieldStorage(152, 0);
+        assertEquals(0, fs.getColsCount());
 
+        FieldStorage fs2 = new FieldStorage(0, 10);
+        assertEquals(0, fs2.getColsCount());
     }
 
     @Test
-    public void removeFullRows() throws Exception {
+    public void saveShape() {
+        FieldStorage fs = new FieldStorage(5, 5);
 
+        Shape s = new Shape(new boolean[][]{
+                {false, true},
+                {false, true}
+        }, Color.green);
+
+        fs.saveShape(s, 0, 0);
+
+
+        Color[][] result1 = fs.printStatus(null, 0, 0);
+        Color[][] e1 = {
+                {null, Color.green, null, null, null},
+                {null, Color.green, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+        };
+
+        assertArrayEquals(e1, result1);
+
+        fs.saveShape(s, 3, 3);
+        Color[][] result2 = fs.printStatus(null, 0, 0);
+        Color[][] e2 = {
+                {null, Color.green, null, null, null},
+                {null, Color.green, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, Color.green},
+                {null, null, null, null, Color.green},
+        };
+
+        assertArrayEquals(e2, result2);
     }
 
     @Test
-    public void isCollision() throws Exception {
+    public void saveShapeInNotValidPosition() {
+        FieldStorage fs = new FieldStorage(3, 3);
+        Shape s = new Shape(new boolean[][]{
+                {true, true},
+                {true, true}
+        }, Color.green);
 
+        fs.saveShape(s, 2, 2);
+
+        Color[][] result = fs.printStatus(null, 0, 0);
+        Color[][] e = {
+                {null, null, null},
+                {null, null, null},
+                {null, null, Color.green},
+        };
+
+        assertArrayEquals(e, result);
+    }
+
+
+    @Test
+    public void resetStorage() {
+        FieldStorage fs = new FieldStorage(5, 5);
+
+        Shape s = new Shape(new boolean[][]{
+                {true},
+                {true}
+        }, Color.green);
+
+        fs.saveShape(s, 0, 0);
+
+
+        fs.resetStorage();
+
+        Color[][] result1 = fs.printStatus(null, 0, 0);
+        Color[][] e1 = {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+        };
+
+        assertArrayEquals(e1, result1);
+    }
+
+
+    @Test
+    public void printStatusEmptyAll() {
+        FieldStorage fs = new FieldStorage(2, 2);
+
+        Color[][] e1 = {
+                {null, null},
+                {null, null},
+        };
+
+        assertArrayEquals(e1, fs.printStatus(null, 0, 0));
     }
 
     @Test
-    public void printStatus() throws Exception {
+    public void printStatusEmptyField() {
+        FieldStorage fs = new FieldStorage(2, 2);
 
+        Shape s1 = new Shape(new boolean[][]{{true}, {true}}, Color.BLUE);
+
+        Color[][] e2 = {
+                {null, Color.BLUE},
+                {null, Color.BLUE},
+        };
+        assertArrayEquals(e2, fs.printStatus(s1, 1, 0));
+    }
+
+    @Test
+    public void printStatusCollision() {
+        FieldStorage fs = new FieldStorage(2, 2);
+
+        Shape s1 = new Shape(new boolean[][]{{true}, {true}}, Color.BLUE);
+
+        fs.printStatus(s1, 2, 0);
     }
 
 }

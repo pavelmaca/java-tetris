@@ -45,12 +45,13 @@ class FieldStorage {
 
     /**
      * Add shape to memory
+     * If some shape point is outside of field dimensions, it will be hidden
      *
      * @param shape     saved shape
      * @param xPosition X position of shape in game field
      * @param yPosition Y position of shape in game field
      */
-    public void saveShape(Shape shape, int xPosition, int yPosition) {
+    public void saveShape(Shape shape, int xPosition, int yPosition)  {
         margeShapeIntoFields(fileds, shape, xPosition, yPosition);
     }
 
@@ -70,7 +71,7 @@ class FieldStorage {
 
         int n = rowsCount - 1; // current row in new array
 
-        for (int y = n; y > 0; y--) {
+        for (int y = n; y >= 0; y--) {
             boolean fullRow = true;
             for (int x = 0; x < colsCount; x++) {
                 if (fileds[y][x] == null) {
@@ -110,8 +111,8 @@ class FieldStorage {
                     continue;
                 }
 
-                // sides and bottom collision
-                if (xPosition + x >= colsCount || xPosition + x < 0 || yPosition + y >= rowsCount) {
+                // sides, bottom and top collision
+                if (xPosition + x >= colsCount || xPosition + x < 0 || yPosition + y >= rowsCount || yPosition + y < 0 ) {
                     return true;
                 }
 
@@ -127,6 +128,7 @@ class FieldStorage {
 
     /**
      * Merge shape point into given fileds array
+     * If some shape point is outside of field dimensions, it will be hidden
      *
      * @param fields    array of fileds to marge shape
      * @param shape     shape to merge
@@ -140,7 +142,9 @@ class FieldStorage {
 
         for (int y = 0; y < points.length; y++) {
             for (int x = 0; x < points[y].length; x++) {
-                if (points[y][x]) {
+                int yAbs = yPosition + y;
+                int xAbs = xPosition + x;
+                if (points[y][x] && xAbs >= 0 && xAbs < getColsCount() && yAbs >= 0 && yAbs < getRowsCount() ) {
                     fields[yPosition + y][xPosition + x] = shape.getColor();
                 }
             }
@@ -151,6 +155,7 @@ class FieldStorage {
 
     /**
      * Create array presenting acutal position of all fields and given shape.
+     * If some shape point is outside of field dimensions, it will be hidden
      *
      * @param shape     shape to merge
      * @param xPosition X position of shape in fileds
@@ -159,6 +164,9 @@ class FieldStorage {
      */
     public Color[][] printStatus(Shape shape, int xPosition, int yPosition) {
         Color[][] copyFields = deepCopyOfFileds(fileds);
+        if(shape == null){
+            return copyFields;
+        }
         return margeShapeIntoFields(copyFields, shape, xPosition, yPosition);
     }
 

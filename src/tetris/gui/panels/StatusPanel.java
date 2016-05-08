@@ -186,8 +186,13 @@ public class StatusPanel extends JPanel {
 
         Record actualRecord = null;
         if (playerName != null) {
-            actualRecord = scoreBoard.saveScore(playerName, engine.getScore());
-            scoreBoard.saveData();
+            try {
+                actualRecord = scoreBoard.saveScore(playerName, engine.getScore());
+                scoreBoard.saveData();
+            } catch (Record.InvalidScoreException e) {
+                e.printStackTrace();
+                //TODO handle error
+            }
         }
 
         showScoreBoard(actualRecord);

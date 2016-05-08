@@ -7,52 +7,64 @@ import java.awt.*;
  */
 class FieldStorage {
 
+    /**
+     * Store actual position and color of non-moving fields
+     */
     private Color[][] fileds;
 
-    private int rowsCount;
-    private int colsCount;
-
+    /**
+     * Initialize new storage with given size
+     *
+     * @param rowsCount number of rows
+     * @param colsCount number of cols
+     */
     public FieldStorage(int rowsCount, int colsCount) {
-        this.rowsCount = rowsCount;
-        this.colsCount = colsCount;
-
-        initStorage();
+        fileds = new Color[rowsCount][colsCount];
     }
 
+    /**
+     * @return number of rows
+     */
     public int getRowsCount() {
-        return rowsCount;
+        return fileds.length;
     }
 
+    /**
+     * @return number of cols
+     */
     public int getColsCount() {
-        return colsCount;
+        return fileds.length > 0 ? fileds[0].length : 0;
     }
-
 
     /**
      * Initialize new empty storage
      */
-    public void initStorage() {
-        fileds = new Color[rowsCount][colsCount];
+    public void resetStorage() {
+        fileds = new Color[getRowsCount()][getColsCount()];
     }
 
     /**
      * Add shape to memory
      *
-     * @param shape
-     * @param xPosition
-     * @param yPosition
+     * @param shape     saved shape
+     * @param xPosition X position of shape in game field
+     * @param yPosition Y position of shape in game field
      */
     public void saveShape(Shape shape, int xPosition, int yPosition) {
         margeShapeIntoFields(fileds, shape, xPosition, yPosition);
     }
 
     /**
-     * Return number of removed full rows
+     * Starting from bottom to top, walks thru all rows and remove these, that are full.
+     * All rows over removed one will be moved down (falling).
      *
-     * @return
+     * @return number of removed full rows
      */
     public int removeFullRows() {
         int count = 0; // nuber of removed rows
+
+        int rowsCount = getRowsCount();
+        int colsCount = getColsCount();
 
         Color[][] cleanedFilds = new Color[rowsCount][colsCount]; // new array with removed rows
 
@@ -78,8 +90,20 @@ class FieldStorage {
     }
 
 
+    /**
+     * Check, if shape is outside of game fields, or in collision with saved points.
+     *
+     * @param shape     shape to check
+     * @param xPosition X position of shape in fileds
+     * @param yPosition Y position of shape in fileds
+     * @return true when collision, otherwise false
+     */
     public boolean isCollision(Shape shape, int xPosition, int yPosition) {
         boolean[][] points = shape.getPoints();
+
+        int rowsCount = getRowsCount();
+        int colsCount = getColsCount();
+
         for (int x = 0; x < shape.getWidth(); x++) {
             for (int y = 0; y < shape.getHeight(); y++) {
                 if (!points[y][x]) {
@@ -101,6 +125,15 @@ class FieldStorage {
         return false;
     }
 
+    /**
+     * Merge shape point into given fileds array
+     *
+     * @param fields    array of fileds to marge shape
+     * @param shape     shape to merge
+     * @param xPosition X position of shape in fileds
+     * @param yPosition Y position of shape in fileds
+     * @return modified fields array, containing given shape
+     */
     private Color[][] margeShapeIntoFields(Color[][] fields, Shape shape, int xPosition, int yPosition) {
 
         boolean[][] points = shape.getPoints();
@@ -116,11 +149,25 @@ class FieldStorage {
         return fields;
     }
 
+    /**
+     * Create array presenting acutal position of all fields and given shape.
+     *
+     * @param shape     shape to merge
+     * @param xPosition X position of shape in fileds
+     * @param yPosition Y position of shape in fileds
+     * @return
+     */
     public Color[][] printStatus(Shape shape, int xPosition, int yPosition) {
         Color[][] copyFields = deepCopyOfFileds(fileds);
         return margeShapeIntoFields(copyFields, shape, xPosition, yPosition);
     }
 
+    /**
+     * Create deep copy of two dimensional array of colors
+     *
+     * @param fieldsToCopy requested array
+     * @return deep copy of array
+     */
     private Color[][] deepCopyOfFileds(Color[][] fieldsToCopy) {
         if (fieldsToCopy == null)
             return null;

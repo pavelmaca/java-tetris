@@ -23,20 +23,10 @@ public class ScoreBoard {
         return board.size() - board.tailSet(record, false).size();
     }
 
-    public Record saveScore(String name, int score) {
+    public Record saveScore(String name, int score) throws Record.InvalidScoreException {
         Record record = new Record(name, score);
-
         board.add(record);
 
-        /*
-        int position = getPosition(score);
-
-        for (int i = board.size(); i >= position; i--) {
-            board.put(i + 1, board.get(i));
-        }
-
-        board.put(position, record);
-*/
         return record;
     }
 
@@ -61,11 +51,10 @@ public class ScoreBoard {
             fileIn.close();
         } catch (FileNotFoundException e) {
             // file not found, creating new board
-            System.out.println("board: no data file, creating new board");
+            System.out.println("board: new file will be created");
         } catch (IOException i) {
             i.printStackTrace();
         } catch (ClassNotFoundException c) {
-            System.out.println("Record class not found");
             c.printStackTrace();
         }
     }

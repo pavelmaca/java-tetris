@@ -158,7 +158,7 @@ public class Engine {
         pause();
 
         score = 0;
-        storage.initStorage();
+        storage.resetStorage();
         nextShape = generator.createNext();
         creteNewShape();
         performScoreChangeEvent();

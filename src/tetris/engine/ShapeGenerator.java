@@ -15,7 +15,8 @@ public class ShapeGenerator {
     }
 
     public Shape createNext() {
-        Shape newShape = getRandomType().create();
+        Type randomType = getRandomType();
+        Shape newShape = new Shape(randomType.points, randomType.color);
 
         randomFlip(newShape);
         randomRotation(newShape);
@@ -48,74 +49,46 @@ public class ShapeGenerator {
         }
     }
 
+
     private enum Type {
-        LINE {
-            Color color = Color.MAGENTA;
-            public Shape create() {
-                Shape line = new Shape(3, 3, color);
-                line.addPoint(1, 0);
-                line.addPoint(1, 1);
-                line.addPoint(1, 2);
+        LINE(new boolean[][]{
+                {true, true, true},
+        }, Color.MAGENTA),
 
-                return line;
-            }
-        },
-        CORNER {
-            Color color = Color.ORANGE;
-            public Shape create() {
-                Shape corner = new Shape(2, 2, color);
-                corner.addPoint(0, 0);
-                corner.addPoint(0, 1);
-                corner.addPoint(1, 0);
-                return corner;
-            }
-        },
-        T {
-            Color color = Color.GREEN;
-            public Shape create() {
-                Shape t = new Shape(3, 3, color);
-                t.addPoint(0, 0);
-                t.addPoint(0, 1);
-                t.addPoint(0, 2);
-                t.addPoint(1, 1);
-                return t;
-            }
-        },
-        SQUARE {
-            Color color = Color.RED;
-            public Shape create() {
-                Shape square = new Shape(2, 2, color);
-                square.addPoint(0, 0);
-                square.addPoint(0, 1);
-                square.addPoint(1, 0);
-                square.addPoint(1, 1);
-                return square;
-            }
-        },
-        N {
-            Color color = Color.YELLOW;
-            public Shape create() {
-                Shape n = new Shape(3, 3, color);
-                n.addPoint(0, 0);
-                n.addPoint(0, 1);
-                n.addPoint(1, 1);
-                n.addPoint(1, 2);
-                return n;
-            }
-        },
-        L {
-            Color color = Color.BLUE;
-            public Shape create() {
-                Shape l = new Shape(3, 3, color);
-                l.addPoint(0, 0);
-                l.addPoint(0, 1);
-                l.addPoint(0, 2);
-                l.addPoint(1, 2);
-                return l;
-            }
+        CORNER(new boolean[][]{
+                {true, false},
+                {true, true},
+        }, Color.ORANGE),
+
+        T (new boolean[][]{
+                {true, true, true},
+                {false, true, false},
+        }, Color.GREEN),
+
+        SQUARE(new boolean[][]{
+            {true, true},
+            {true, true},
+        }, Color.RED),
+
+
+        N (new boolean[][]{
+                {true, true, false},
+                {false, true, true},
+        }, Color.YELLOW),
+
+        L (new boolean[][]{
+                {true, true, true},
+                {true, false, false},
+        }, Color.BLUE);
+
+
+        boolean[][] points;
+        Color color;
+
+        Type(boolean[][] points, Color color) {
+            this.points = points;
+            this.color = color;
         };
-
-        public abstract Shape create();
     }
 
 }

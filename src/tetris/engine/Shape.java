@@ -8,15 +8,23 @@ import java.awt.*;
 public class Shape {
 
     /**
-     * Body ze kterých se objekt skládá
-     * NULL představuje prázdné místo
+     * Points creating shape, stored in two dimensional array
+     * NULL represents empty space
      */
     private boolean[][] points;
+
+    /**
+     * Color of shape
+     */
     private Color color;
 
-    public Shape(int width, int height, Color color) {
+    /**
+     * @param points Points creating shape, stored in two dimensional array
+     * @param color Color of shape
+     */
+    public Shape(boolean[][] points, Color color) {
 
-        points = new boolean[height][width];
+        this.points = points;
         this.color = color;
     }
 
@@ -32,11 +40,14 @@ public class Shape {
         return color;
     }
 
-    public void addPoint(int x, int y) {
-        points[y][x] = true;
+    public boolean[][] getPoints() {
+        return points;
     }
 
 
+    /**
+     * Rotate shape clock-wise (+90 degrees]
+     */
     public void rotate() {
         int width = getWidth();
         int height = getHeight();
@@ -44,28 +55,19 @@ public class Shape {
         //create new array with switched dimensions
         boolean[][] newShape = new boolean[width][height];
 
-        // round up
-        int xStop = (int) Math.ceil(width / 2.0);
-        int yStop = (int) Math.ceil(height / 2.0);
-
-        for (int yTop = 0; yTop < yStop; yTop++) {
-            for (int xLeft = 0; xLeft < xStop; xLeft++) {
-                int yBottom = height - 1 - yTop;
-                int xRight = width - 1 - xLeft;
-
-                // rotate right
-                newShape[xLeft][yBottom] = points[yBottom][xRight];
-                newShape[xLeft][yTop] = points[yTop][xRight];
-                newShape[xRight][yTop] = points[yTop][xLeft];
-                newShape[xRight][yBottom] = points[yBottom][xLeft];
+        for (int i = 0; i < width; i++) {
+            for (int j = height - 1; j >= 0; j--) {
+                newShape[i][height - j - 1] = points[j][i]; // Rotate by +90: Transpose + Reverse each row
             }
-
         }
 
         points = newShape;
     }
 
 
+    /**
+     * Flip verticaly
+     */
     public void flip() {
         int width = getWidth();
         int height = getHeight();
@@ -81,9 +83,4 @@ public class Shape {
             }
         }
     }
-
-    public boolean[][] getPoints() {
-        return points;
-    }
-
 }

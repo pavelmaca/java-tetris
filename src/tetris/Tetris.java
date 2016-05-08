@@ -16,7 +16,7 @@ public class Tetris {
             Engine tetris = new Engine(height, width);
             Gui graphics = new Gui(tetris, squereSize);
             graphics.render();
-        }catch (Throwable e){
+        } catch (Throwable e) {
             e.printStackTrace();
         }
     }

@@ -85,8 +85,8 @@ public class EngineMovementsTest {
     @Test
     public void rotate() {
         for (int i = 0; i < 100; i++) {
-            if(!isSquareInMiddle(engine.getStatus())) {
-                rotateSingle();
+            if (!isSquareInMiddle(engine.getStatus())) {
+                rotateSingle(true);
             }
             engine.restart();
             engine.start();
@@ -97,9 +97,9 @@ public class EngineMovementsTest {
     @Test
     public void rotateOnLeft() {
         for (int j = 0; j < 100; j++) {
-            if(!isSquareInMiddle(engine.getStatus())){
+            if (!isSquareInMiddle(engine.getStatus())) {
                 moveToLeft();
-                rotateSingle();
+                rotateSingle(false);
             }
             engine.restart();
             engine.start();
@@ -109,21 +109,9 @@ public class EngineMovementsTest {
     @Test
     public void rotateOnRight() {
         for (int j = 0; j < 100; j++) {
-            if(!isSquareInMiddle(engine.getStatus())){
+            if (!isSquareInMiddle(engine.getStatus())) {
                 moveToRight();
-                rotateSingle();
-            }
-            engine.restart();
-            engine.start();
-        }
-    }
-
-    @Test
-    public void rotateOnButtom() {
-        for (int i = 0; i < 100; i++) {
-            if(!isSquareInMiddle(engine.getStatus())) {
-                moveDown();
-                rotateSingle();
+                rotateSingle(false);
             }
             engine.restart();
             engine.start();
@@ -139,7 +127,7 @@ public class EngineMovementsTest {
         }
     }
 
-    private void rotateSingle() {
+    private void rotateSingle(boolean checkIfreturnTofirstStage) {
         Color[][] firstStatus = engine.getStatus();
 
         for (int i = 0; i < 4; i++) {
@@ -147,10 +135,13 @@ public class EngineMovementsTest {
             engine.rotateShape();
             assertThat(engine.getStatus(), IsNot.not(beforeStatus));
         }
-        assertThat(engine.getStatus(), Is.is(firstStatus));
+
+        if (checkIfreturnTofirstStage) {
+            assertThat(engine.getStatus(), Is.is(firstStatus));
+        }
     }
 
-    private boolean isSquareInMiddle(Color[][] status){
+    private boolean isSquareInMiddle(Color[][] status) {
         int middle = engine.getColsCount() / 2;
         return (status[0][middle - 1] != null
                 && status[0][middle - 1] != null

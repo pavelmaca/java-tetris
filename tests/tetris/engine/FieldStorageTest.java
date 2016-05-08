@@ -7,7 +7,6 @@ import org.junit.rules.ExpectedException;
 
 import java.awt.*;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -157,7 +156,7 @@ public class FieldStorageTest {
                 {null, null},
         };
 
-        assertThat( fs.printStatus(null, 0, 0), Is.is(e1));
+        assertThat(fs.printStatus(null, 0, 0), Is.is(e1));
     }
 
     @Test
@@ -170,7 +169,7 @@ public class FieldStorageTest {
                 {null, Color.BLUE},
                 {null, Color.BLUE},
         };
-        assertThat( fs.printStatus(s1, 1, 0), Is.is(e2));
+        assertThat(fs.printStatus(s1, 1, 0), Is.is(e2));
     }
 
     @Test

@@ -7,7 +7,6 @@ import org.junit.rules.ExpectedException;
 
 import java.awt.*;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 

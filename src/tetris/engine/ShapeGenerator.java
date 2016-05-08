@@ -52,7 +52,9 @@ public class ShapeGenerator {
 
     private enum Type {
         LINE(new boolean[][]{
+                {false, false, false},
                 {true, true, true},
+                {false, false, false},
         }, Color.MAGENTA),
 
         CORNER(new boolean[][]{

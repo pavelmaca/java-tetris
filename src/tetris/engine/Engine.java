@@ -98,23 +98,31 @@ public class Engine {
             return;
         }
 
+        int prevWidth = actualShape.getWidth();
+        int newX = actualX;
+
         actualShape.rotate();
 
-        // check collision after rotation
-        if (storage.isCollision(actualShape, actualX, actualY)) {
-            // rotate back to original state and exit
-            // TODO: create rotateBack () ??
-            actualShape.rotate();
-            actualShape.rotate();
-            actualShape.rotate();
-            return;
+
+        if (prevWidth != actualShape.getWidth()) {
+            newX += (prevWidth - actualShape.getWidth()) / 2;
         }
 
         // fix x position after rotating on sides
-        if (actualX < 0) {
-            actualX = 0;
-        } else if (actualX + actualShape.getWidth() > storage.getColsCount()) {
-            actualX = storage.getColsCount() - actualShape.getWidth();
+        if (newX < 0) {
+            newX = 0;
+        } else if (newX + actualShape.getWidth() > storage.getColsCount()) {
+            newX = storage.getColsCount() - actualShape.getWidth();
+        }
+
+        // check collision after rotation and move
+        if (storage.isCollision(actualShape, newX, actualY)) {
+            // rotate back to original state
+            actualShape.rotate();
+            actualShape.rotate();
+            actualShape.rotate();
+        } else {
+            actualX = newX;
         }
     }
 

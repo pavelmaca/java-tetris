@@ -85,8 +85,8 @@ public class FieldStorageCollisionTest {
     }
 
     @Test
-    public void innerCollision(){
-        fs.saveShape(s1, 1,1);
+    public void innerCollision() {
+        fs.saveShape(s1, 1, 1);
 
         assertTrue(fs.isCollision(s1, 1, 1));
         assertFalse(fs.isCollision(s2, 1, 1));
@@ -94,7 +94,7 @@ public class FieldStorageCollisionTest {
         assertFalse(fs.isCollision(s4, 1, 1));
 
 
-        fs.saveShape(s3, 1,1);
+        fs.saveShape(s3, 1, 1);
         assertTrue(fs.isCollision(s3, 1, 1));
     }
 

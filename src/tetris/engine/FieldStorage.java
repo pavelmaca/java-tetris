@@ -51,7 +51,7 @@ class FieldStorage {
      * @param xPosition X position of shape in game field
      * @param yPosition Y position of shape in game field
      */
-    public void saveShape(Shape shape, int xPosition, int yPosition)  {
+    public void saveShape(Shape shape, int xPosition, int yPosition) {
         margeShapeIntoFields(fileds, shape, xPosition, yPosition);
     }
 
@@ -112,7 +112,7 @@ class FieldStorage {
                 }
 
                 // sides, bottom and top collision
-                if (xPosition + x >= colsCount || xPosition + x < 0 || yPosition + y >= rowsCount || yPosition + y < 0 ) {
+                if (xPosition + x >= colsCount || xPosition + x < 0 || yPosition + y >= rowsCount || yPosition + y < 0) {
                     return true;
                 }
 
@@ -144,7 +144,7 @@ class FieldStorage {
             for (int x = 0; x < points[y].length; x++) {
                 int yAbs = yPosition + y;
                 int xAbs = xPosition + x;
-                if (points[y][x] && xAbs >= 0 && xAbs < getColsCount() && yAbs >= 0 && yAbs < getRowsCount() ) {
+                if (points[y][x] && xAbs >= 0 && xAbs < getColsCount() && yAbs >= 0 && yAbs < getRowsCount()) {
                     fields[yPosition + y][xPosition + x] = shape.getColor();
                 }
             }
@@ -164,7 +164,7 @@ class FieldStorage {
      */
     public Color[][] printStatus(Shape shape, int xPosition, int yPosition) {
         Color[][] copyFields = deepCopyOfFileds(fileds);
-        if(shape == null){
+        if (shape == null) {
             return copyFields;
         }
         return margeShapeIntoFields(copyFields, shape, xPosition, yPosition);

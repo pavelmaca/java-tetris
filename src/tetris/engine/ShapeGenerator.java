@@ -60,23 +60,23 @@ public class ShapeGenerator {
                 {true, true},
         }, Color.ORANGE),
 
-        T (new boolean[][]{
+        T(new boolean[][]{
                 {true, true, true},
                 {false, true, false},
         }, Color.GREEN),
 
         SQUARE(new boolean[][]{
-            {true, true},
-            {true, true},
+                {true, true},
+                {true, true},
         }, Color.RED),
 
 
-        N (new boolean[][]{
+        N(new boolean[][]{
                 {true, true, false},
                 {false, true, true},
         }, Color.YELLOW),
 
-        L (new boolean[][]{
+        L(new boolean[][]{
                 {true, true, true},
                 {true, false, false},
         }, Color.BLUE);
@@ -88,7 +88,7 @@ public class ShapeGenerator {
         Type(boolean[][] points, Color color) {
             this.points = points;
             this.color = color;
-        };
+        }
     }
 
 }

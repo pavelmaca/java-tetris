@@ -12,7 +12,7 @@ public class Record implements Serializable, Comparable<Record> {
     private Date date;
 
     Record(String playerName, int score) throws InvalidScoreException {
-        if(score < 0){
+        if (score < 0) {
             throw new InvalidScoreException();
         }
         this.playerName = playerName;

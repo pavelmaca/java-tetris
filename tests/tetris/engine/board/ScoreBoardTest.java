@@ -16,12 +16,10 @@ import static org.junit.Assert.*;
  */
 public class ScoreBoardTest {
 
-    ScoreBoard sb;
-
-    String testFile;
-
     @Rule
     public final ExpectedException exception = ExpectedException.none();
+    ScoreBoard sb;
+    String testFile;
 
     @Before
     public void setUp() throws Exception {

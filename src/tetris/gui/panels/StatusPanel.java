@@ -191,7 +191,6 @@ public class StatusPanel extends JPanel {
                 scoreBoard.saveData();
             } catch (Record.InvalidScoreException e) {
                 e.printStackTrace();
-                //TODO handle error
             }
         }
 
@@ -215,15 +214,15 @@ public class StatusPanel extends JPanel {
             textBoard += i + ". \t" + list[i - 1].getScore() + " : \t" + list[i - 1].getPlayerName() + "\n";
         }
 
-        if(actualRecord != null) {
+        if (actualRecord != null) {
             textBoard += "\n";
-            textBoard += "Vaše pozice: \n"+scoreBoard.getPosition(actualRecord) + ". " + actualRecord.getScore() + " : " + actualRecord.getPlayerName();
+            textBoard += "Vaše pozice: \n" + scoreBoard.getPosition(actualRecord) + ". " + actualRecord.getScore() + " : " + actualRecord.getPlayerName();
         }
 
 
         boolean running = engine.isRunning();
-        if(running) engine.pause();
+        if (running) engine.pause();
         JOptionPane.showMessageDialog(this, textBoard, "Žebříček", JOptionPane.INFORMATION_MESSAGE);
-        if(running) engine.start();
+        if (running) engine.start();
     }
 }

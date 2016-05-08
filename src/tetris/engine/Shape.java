@@ -20,7 +20,7 @@ public class Shape {
 
     /**
      * @param points Points creating shape, stored in two dimensional array
-     * @param color Color of shape
+     * @param color  Color of shape
      */
     public Shape(boolean[][] points, Color color) {
 

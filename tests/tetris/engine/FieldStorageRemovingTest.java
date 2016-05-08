@@ -15,17 +15,16 @@ import static org.junit.Assert.assertEquals;
  */
 public class FieldStorageRemovingTest {
 
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
     // vertical line
     Shape sVertical = new Shape(new boolean[][]{
             {true}, {true}, {true}, {true}, {true}
     }, Color.red);
-
     // horizontal line
     Shape sHorizontal = new Shape(new boolean[][]{
             {true, true, true},
     }, Color.green);
-
-
     Color[][] eOneRow = {
             {null, null, null},
             {Color.red, null, Color.red},
@@ -33,7 +32,6 @@ public class FieldStorageRemovingTest {
             {Color.red, null, Color.red},
             {Color.red, null, Color.red},
     };
-
     Color[][] eTwoRows = {
             {null, null, null},
             {null, null, null},
@@ -41,20 +39,13 @@ public class FieldStorageRemovingTest {
             {Color.red, null, Color.red},
             {Color.red, null, Color.red},
     };
-
-
     FieldStorage fs;
-
-
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
 
     @Before
     public void setUp() throws Exception {
         fs = new FieldStorage(5, 3);
-        fs.saveShape(sVertical, 0,0);
-        fs.saveShape(sVertical, 2,0);
+        fs.saveShape(sVertical, 0, 0);
+        fs.saveShape(sVertical, 2, 0);
     }
 
     @Test
@@ -145,7 +136,6 @@ public class FieldStorageRemovingTest {
         };
         assertArrayEquals(eAllRows, fs.printStatus(null, 0, 0));
     }
-
 
 
 }

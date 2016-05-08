@@ -7,7 +7,6 @@ import org.junit.rules.ExpectedException;
 import java.awt.*;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Pavel on 8.5.2016.
@@ -100,7 +99,7 @@ public class ShapeRotateTest {
     }
 
     @Test
-    public void rotateEmpty(){
+    public void rotateEmpty() {
         boolean[][] e1 = {
                 {},
         };
@@ -108,7 +107,7 @@ public class ShapeRotateTest {
         boolean[][] e2 = {
         };
 
-        Shape s1 = new Shape(e1,Color.black);
+        Shape s1 = new Shape(e1, Color.black);
         s1.rotate();
         assertArrayEquals(e2, s1.getPoints());
 

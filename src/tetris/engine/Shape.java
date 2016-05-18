@@ -3,24 +3,27 @@ package tetris.engine;
 import java.awt.*;
 
 /**
+ * Objekt představující tvar v herní ploše.
+ * Umožnuje otáčení a překlápění.
+ *
  * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class Shape {
 
     /**
-     * Points creating shape, stored in two dimensional array
-     * NULL represents empty space
+     * Body reprezentující tvar objektu v dvojrozměrném poli.
+     * FALSE značí, že bod do objektu nepatří.
      */
     private boolean[][] points;
 
     /**
-     * Color of shape
+     * Barva tvaru
      */
     private Color color;
 
     /**
-     * @param points Points creating shape, stored in two dimensional array
-     * @param color  Color of shape
+     * @param points Body tvořící objekt v dvojrozměrném poli.
+     * @param color  Barva objektu
      */
     public Shape(boolean[][] points, Color color) {
 
@@ -28,31 +31,43 @@ public class Shape {
         this.color = color;
     }
 
+    /**
+     * @return Výška objektu
+     */
     public int getHeight() {
         return points.length;
     }
 
+    /**
+     * @return Šířka objektu
+     */
     public int getWidth() {
         return points.length > 0 ? points[0].length : 0;
     }
 
+    /**
+     * @return Barva objektu
+     */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * @return Dvojrozměrné pole představujicí tvar objektu pomocí logických hodnot
+     */
     public boolean[][] getPoints() {
         return points;
     }
 
 
     /**
-     * Rotate shape clock-wise (+90 degrees]
+     * Otočí objekt po sěru hodinových ručiček o 90 stupnů
      */
     public void rotate() {
         int width = getWidth();
         int height = getHeight();
 
-        //create new array with switched dimensions
+        // nové dvojrozměrné pole s opačnými rozměry
         boolean[][] newShape = new boolean[width][height];
 
         for (int i = 0; i < width; i++) {
@@ -66,13 +81,13 @@ public class Shape {
 
 
     /**
-     * Flip verticaly
+     * Vertikální překlopení
      */
     public void flip() {
         int width = getWidth();
         int height = getHeight();
 
-        // round up
+        // zaokrouhleno nahoru
         int widthStop = (int) Math.ceil(width / 2.0);
 
         for (int y = 0; y < height; y++) {

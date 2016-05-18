@@ -3,73 +3,77 @@ package tetris.engine;
 import java.awt.*;
 
 /**
+ * Uložiště odehraných tvarů
+ * Pohlcuje tvary a jejich souřadnice a uchovává je jako jeden blok.
+ * Představuje celou herní plochu nepohyblivých objektů.
+ *
  * @author Pavel Máca <maca.pavel@gmail.com>
  */
 class FieldStorage {
 
     /**
-     * Store actual position and color of non-moving fields
+     * Uchovává aktuální polohu a tvar nepohyblivých objektů
      */
     private Color[][] fileds;
 
     /**
-     * Initialize new storage with given size
+     * Vytvoří nové uložiště s danou velikostí
      *
-     * @param rowsCount number of rows
-     * @param colsCount number of cols
+     * @param rowsCount počet řádek
+     * @param colsCount počet sloupců
      */
     public FieldStorage(int rowsCount, int colsCount) {
         fileds = new Color[rowsCount][colsCount];
     }
 
     /**
-     * @return number of rows
+     * @return počet řádků
      */
     public int getRowsCount() {
         return fileds.length;
     }
 
     /**
-     * @return number of cols
+     * @return počet sloupců
      */
     public int getColsCount() {
         return fileds.length > 0 ? fileds[0].length : 0;
     }
 
     /**
-     * Initialize new empty storage
+     * Vyresetuje aktuální stav na prázdnou plochu
      */
     public void resetStorage() {
         fileds = new Color[getRowsCount()][getColsCount()];
     }
 
     /**
-     * Add shape to memory
-     * If some shape point is outside of field dimensions, it will be hidden
+     * Přidá tvar do aktuální paměti
+     * Pokud je tvar, nebo jeho část umístěna mimo herní pole, tato část bude ztracena
      *
-     * @param shape     saved shape
-     * @param xPosition X position of shape in game field
-     * @param yPosition Y position of shape in game field
+     * @param shape     ukládaný tvar
+     * @param xPosition pozice ukládaného tvaru na ose X
+     * @param yPosition pozice ukládaného tvaru na ose YY
      */
     public void saveShape(Shape shape, int xPosition, int yPosition) {
         margeShapeIntoFields(fileds, shape, xPosition, yPosition);
     }
 
     /**
-     * Starting from bottom to top, walks thru all rows and remove these, that are full.
-     * All rows over removed one will be moved down (falling).
+     * Odebere všechny plné řádky a vrátí počet řádků, které byli odebrány.
+     * Každý řádek nad odebíraným je posunut směrem dolů a je tak reprezentovat jejich "pád".
      *
-     * @return number of removed full rows
+     * @return počet odebraných řádek
      */
     public int removeFullRows() {
-        int count = 0; // nuber of removed rows
+        int count = 0; // počet odebraných řádek
 
         int rowsCount = getRowsCount();
         int colsCount = getColsCount();
 
-        Color[][] cleanedFilds = new Color[rowsCount][colsCount]; // new array with removed rows
+        Color[][] cleanedFilds = new Color[rowsCount][colsCount]; // nové pole bez odebraných řádků
 
-        int n = rowsCount - 1; // current row in new array
+        int n = rowsCount - 1; // aktuální řádek, kam ukládá v novém poli
 
         for (int y = n; y >= 0; y--) {
             boolean fullRow = true;
@@ -92,12 +96,13 @@ class FieldStorage {
 
 
     /**
-     * Check, if shape is outside of game fields, or in collision with saved points.
+     * Kontrola, zda předaný tvar a jeho souřadnice jsou v kolizi s pevnou částí uložiště.
+     * Zárovneň kontroluj, zda je tvar celý uvnitř rozměrů pro uložiště.
      *
-     * @param shape     shape to check
-     * @param xPosition X position of shape in fileds
-     * @param yPosition Y position of shape in fileds
-     * @return true when collision, otherwise false
+     * @param shape     tvar ke kontrole
+     * @param xPosition pozice na ose X, kontrolovaného tvaru
+     * @param yPosition pozice na ose Y, kontrolovaného tvaru
+     * @return true, pokud nastala kolize
      */
     public boolean isCollision(Shape shape, int xPosition, int yPosition) {
         boolean[][] points = shape.getPoints();
@@ -111,12 +116,12 @@ class FieldStorage {
                     continue;
                 }
 
-                // sides, bottom and top collision
+                // kontrola přetečení okraje: postraní, spodní a horní
                 if (xPosition + x >= colsCount || xPosition + x < 0 || yPosition + y >= rowsCount || yPosition + y < 0) {
                     return true;
                 }
 
-                // field collision
+                // kolize s pevným blokem
                 if (fileds[yPosition + y][xPosition + x] != null) {
                     return true;
                 }

@@ -11,21 +11,31 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+ * Postraní panel, který slouží k ovládání aplikace a zobrazení aktuálního stavu.
+ *
  * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class StatusPanel extends JPanel {
 
+    /* Popisky tlačítek */
     private final String BTN_START = "Start";
     private final String BTN_PAUSE = "Pauza";
     private final String BTN_CONTINUE = "Pokračovat";
     private final String BTN_RESTART = "Restart";
 
+    /* Logická část aplikace. */
     private Engine engine;
 
-    private ScoreBoard scoreBoard = new ScoreBoard("score_board.dat");
+    /* Služba pro práci s žebříčkem */
+    private ScoreBoard scoreBoard;
 
+    /**
+     * Vykreslení ovládání a stavu hry
+     * @param engine
+     */
     public StatusPanel(Engine engine) {
         this.engine = engine;
+        this.scoreBoard = new ScoreBoard("score_board.dat");
 
         BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         setLayout(boxLayout);
@@ -60,6 +70,11 @@ public class StatusPanel extends JPanel {
         add(Box.createVerticalStrut(7));
     }
 
+    /**
+     * Překreslení grafického znázornění dalšího objektu ve hře.
+     *
+     * @param g Grafické rozhraní
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -81,6 +96,9 @@ public class StatusPanel extends JPanel {
         }
     }
 
+    /**
+     * Vytvoření hlavních tlačítek pro ovládání
+     */
     private void creteButtons() {
         JComboBox<Difficulty> difficulty = new JComboBox<>();
         for (Difficulty difficultyLevel : Difficulty.values()) {
@@ -102,7 +120,6 @@ public class StatusPanel extends JPanel {
 
         // Start - pause - continue
         JButton btnStart = new JButton(BTN_START);
-        // btnStart.setPreferredSize(new Dimension(100, 30));
         btnStart.setFocusable(false); // otherwise, it would steel focus from game
         btnStart.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(btnStart);
@@ -151,6 +168,10 @@ public class StatusPanel extends JPanel {
         });
     }
 
+    /**
+     * Vytvoření popisků pro zobrazení aktuálního skóre a
+     * nastavení listenerů.
+     */
     private void createScoreLabel() {
         JLabel scoreLabel = new JLabel();
         scoreLabel.setText("Skóre");
@@ -177,6 +198,9 @@ public class StatusPanel extends JPanel {
         });
     }
 
+    /**
+     * Zobrazení dialogu pro zadání jména hráče a uložení výsledku.
+     */
     private void showScoreDialog() {
         String playerName = JOptionPane.showInputDialog(this,
                 "Scóre: " + engine.getScore() + "\n" +
@@ -197,10 +221,18 @@ public class StatusPanel extends JPanel {
         showScoreBoard(actualRecord);
     }
 
+    /**
+     * Zobrazení žebříčku
+     */
     private void showScoreBoard() {
         showScoreBoard(null);
     }
 
+    /**
+     * Zobrazení žebříčku, včetně vlastní pozice po skončení hry.
+     *
+     * @param actualRecord Aktuální pozice hráče.
+     */
     private void showScoreBoard(Record actualRecord) {
 
         int topLimit = 10;

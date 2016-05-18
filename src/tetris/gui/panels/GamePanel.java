@@ -9,16 +9,27 @@ import java.awt.event.KeyEvent;
 import java.util.TimerTask;
 
 /**
+ * Grafické rozhraní pro herní plochu
+ *
  * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class GamePanel extends JPanel {
 
-
+    /* Hodnota FPS */
     private final int FPS = 60;
 
+    /* Časovač pro konstantní překreslování herní plochy */
     private java.util.Timer timer;
+
+    /* Logické část hry */
     private Engine engine;
 
+    /**
+     * Inicializace grafického prostředí pro herní plochu.
+     * Vytvoření posluchačů pro ovládání hry a časovače.
+     *
+     * @param engine
+     */
     public GamePanel(Engine engine) {
         this.engine = engine;
 
@@ -53,6 +64,11 @@ public class GamePanel extends JPanel {
         });
     }
 
+    /**
+     * Překreslení herní plochy podle aktuálního stavu
+     *
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -76,6 +92,15 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Vykreslení jednoho herního bloku (čtverce) a šedého okraje pro zvýraznění.
+     *
+     * @param g       Rozhraní pro vykreslování uvnitř komponenty
+     * @param x       Souřednice osy x
+     * @param y       Souřednice osy y
+     * @param size    Velikost čtverce
+     * @param bgColor Barva pozadí
+     */
     private void drawSquare(Graphics g, int x, int y, int size, Color bgColor) {
         g.setColor(bgColor);
         g.fillRect(x, y, size, size);
@@ -84,13 +109,18 @@ public class GamePanel extends JPanel {
         g.drawRect(x, y, size, size);
     }
 
+    /**
+     * Úloha časovače pro řízení překreslování a logického posunu objektů
+     */
     private class RepaintTask extends TimerTask {
 
+        /* Počítadlo pro zpoždění pohybu objektů */
         int tickNumber = 0;
 
         @Override
         public void run() {
             tickNumber++;
+            // Rychlost pádu podle obtížnosti odvozená od FPS
             if (tickNumber >= (engine.getDifficulty().getFallSpeed() * FPS) / 1000) {
                 tickNumber = 0;
                 engine.tick();

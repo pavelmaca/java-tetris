@@ -5,12 +5,21 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 /**
+ * Žebříček všech odehraných her seřazený podle skóre
+ * Data je možné uložit do souboru a znovu načíst.
+ *
  * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class ScoreBoard {
 
+    /**
+     * datový soubor pro uožení žebříčku
+     */
     private String dataFile;
 
+    /**
+     * Setříděný žebříček se záznamy
+     */
     private TreeSet<Record> board = new TreeSet<>();
 
     public ScoreBoard(String dataFile) {
@@ -19,10 +28,24 @@ public class ScoreBoard {
 
     }
 
+    /**
+     * Vyhledání pozivi v žebříčku pro daný záznam
+     *
+     * @param record
+     * @return pozive v žebříčku
+     */
     public int getPosition(Record record) {
         return board.size() - board.tailSet(record, false).size();
     }
 
+    /**
+     * Přidání záznamu d ožebříčku
+     *
+     * @param name  jméno hráče
+     * @param score skóre
+     * @return vytvořeý záznam
+     * @throws Record.InvalidScoreException
+     */
     public Record saveScore(String name, int score) throws Record.InvalidScoreException {
         Record record = new Record(name, score);
         board.add(record);
@@ -30,6 +53,12 @@ public class ScoreBoard {
         return record;
     }
 
+    /**
+     * Vrátí požadovaný počet záznamů v žebříčku od první pozice směrem dolů
+     *
+     * @param number počet požadovaných záznamů
+     * @return záznamy seřazené od nejelpšího po nejnižší
+     */
     public Record[] getTop(int number) {
 
         Record[] list = new Record[number];
@@ -42,6 +71,9 @@ public class ScoreBoard {
         return list;
     }
 
+    /**
+     * Načtení dat ze souboru
+     */
     private void loadData() {
         try {
             FileInputStream fileIn = new FileInputStream(dataFile);
@@ -59,6 +91,9 @@ public class ScoreBoard {
         }
     }
 
+    /**
+     * Uložení dat do souboru
+     */
     public void saveData() {
         try {
             FileOutputStream fileOut = new FileOutputStream(dataFile);

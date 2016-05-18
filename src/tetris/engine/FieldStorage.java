@@ -3,7 +3,9 @@ package tetris.engine;
 import java.awt.*;
 
 /**
- * Uložiště odehraných tvarů
+ * Uložiště uchovávající nepohyblivé objekty
+ * jako jeden blok.
+ * Představuje celou herní plochu.
  * Pohlcuje tvary a jejich souřadnice a uchovává je jako jeden blok.
  * Představuje celou herní plochu nepohyblivých objektů.
  *
@@ -132,14 +134,14 @@ class FieldStorage {
     }
 
     /**
-     * Merge shape point into given fileds array
-     * If some shape point is outside of field dimensions, it will be hidden
+     * Spojí body z tvaru do předaného pole barev reprezentující statický blok
+     * Pokud je nějkaý bod mimo velikost statického bloku, bude skryt
      *
-     * @param fields    array of fileds to marge shape
-     * @param shape     shape to merge
-     * @param xPosition X position of shape in fileds
-     * @param yPosition Y position of shape in fileds
-     * @return modified fields array, containing given shape
+     * @param fields    pole barev, reprezentující statický tvar, do které se připojuje
+     * @param shape     tvar k připojení
+     * @param xPosition pozice na ose X pro tvar
+     * @param yPosition pozice na ose Y pro tvar
+     * @return vstupní pole modifikované o přidaný tvar
      */
     private Color[][] margeShapeIntoFields(Color[][] fields, Shape shape, int xPosition, int yPosition) {
 
@@ -159,12 +161,12 @@ class FieldStorage {
     }
 
     /**
-     * Create array presenting acutal position of all fields and given shape.
-     * If some shape point is outside of field dimensions, it will be hidden
+     * Vytvoří dvojrozměrné pole reprezentujicí aktuální stav spojený s pohyblivým tvarem.
+     * Nijak nemění vtniřní stav uložiště
      *
-     * @param shape     shape to merge
-     * @param xPosition X position of shape in fileds
-     * @param yPosition Y position of shape in fileds
+     * @param shape     pohyblivý tvar
+     * @param xPosition pozice pohyblivého tvaru na ose X
+     * @param yPosition pozice pohyblivého tvaru na ose Y
      * @return
      */
     public Color[][] printStatus(Shape shape, int xPosition, int yPosition) {
@@ -176,10 +178,10 @@ class FieldStorage {
     }
 
     /**
-     * Create deep copy of two dimensional array of colors
+     * Vytvoří hlubokou kopii předaného dvojrozměrného pole barev
      *
-     * @param fieldsToCopy requested array
-     * @return deep copy of array
+     * @param fieldsToCopy kopírované dvojrozměrné pole barev
+     * @return dvojrozměrná hluboká kopie předanéhp pole na vstupu
      */
     private Color[][] deepCopyOfFileds(Color[][] fieldsToCopy) {
         if (fieldsToCopy == null)

@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Pavel Máca on 25. 4. 2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class StatusPanel extends JPanel {
 
@@ -195,7 +195,6 @@ public class StatusPanel extends JPanel {
         }
 
         showScoreBoard(actualRecord);
-
     }
 
     private void showScoreBoard() {

@@ -1,7 +1,7 @@
 package tetris.engine.events;
 
 /**
- * Created by Pavel Máca on 29. 4. 2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public abstract class GameStatusAdapter implements GameStatusListener {
     @Override

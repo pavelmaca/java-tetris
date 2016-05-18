@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by Pavel Máca on 7.5.2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class Record implements Serializable, Comparable<Record> {
     private String playerName;

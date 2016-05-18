@@ -7,7 +7,7 @@ import java.util.Arrays;
 import static org.junit.Assert.assertFalse;
 
 /**
- * Created by Pavel Máca on 8.5.2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class ShapeGeneratorTest {
 

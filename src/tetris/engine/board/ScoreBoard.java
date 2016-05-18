@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 /**
- * Created by Pavel Máca on 7.5.2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class ScoreBoard {
 

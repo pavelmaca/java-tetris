@@ -10,7 +10,7 @@ import java.awt.*;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created by Pavel on 8.5.2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class ShapeRotateTest {
 

@@ -9,7 +9,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Pavel on 8.5.2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class FieldStorageCollisionTest {
 

@@ -1,7 +1,7 @@
 package tetris.engine.events;
 
 /**
- * Created by Pavel Máca on 2. 5. 2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public interface GameStatusListener {
 

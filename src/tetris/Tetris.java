@@ -4,10 +4,18 @@ import tetris.engine.Engine;
 import tetris.gui.Gui;
 
 /**
- * Created by Pavel Máca on 6. 4. 2016.
+ * Clasic arcade game Tetris realized in Java using Swing library.
+ *
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class Tetris {
-    public static void main(String[] args) throws Exception {
+
+    /**
+     * Main method, inicializing logic (engine) and gui
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
         try {
             int width = 10;
             int height = 17;

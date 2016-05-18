@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Pavel Máca on 6. 4. 2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class Gui {
 

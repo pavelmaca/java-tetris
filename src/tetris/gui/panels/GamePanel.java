@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 import java.util.TimerTask;
 
 /**
- * Created by Pavel Máca on 25. 4. 2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class GamePanel extends JPanel {
 

@@ -3,7 +3,7 @@ package tetris.engine;
 import java.awt.*;
 
 /**
- * Created by Pavel Máca on 7. 4. 2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class Shape {
 

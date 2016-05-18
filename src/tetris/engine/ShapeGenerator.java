@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.Random;
 
 /**
- * Created by Pavel Máca on 13. 4. 2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public class ShapeGenerator {
 

@@ -1,7 +1,7 @@
 package tetris.engine;
 
 /**
- * Created by Pavel Máca on 5. 5. 2016.
+ * @author Pavel Máca <maca.pavel@gmail.com>
  */
 public enum Difficulty {
     EASY("Lehká", 1, 350),

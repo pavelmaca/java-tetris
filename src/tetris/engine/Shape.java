@@ -72,7 +72,7 @@ public class Shape {
 
         for (int i = 0; i < width; i++) {
             for (int j = height - 1; j >= 0; j--) {
-                newShape[i][height - j - 1] = points[j][i]; // Rotate by +90: Transpose + Reverse each row
+                newShape[i][height - j - 1] = points[j][i]; // Rotace o +90 stupnů: Transpose + Reverse each row
             }
         }
 

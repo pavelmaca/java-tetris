@@ -64,7 +64,7 @@ public class Gui {
 
         gamePanel.setPreferredSize(panelSize);
 
-        gamePanel.setFocusable(true); // set focus for key events
+        gamePanel.setFocusable(true); // nasttavení fokusu pro stisk tlačítek
     }
 
     /**

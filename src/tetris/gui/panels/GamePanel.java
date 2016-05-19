@@ -78,7 +78,7 @@ public class GamePanel extends JPanel {
 
         Color[][] fileds = engine.getStatus();
 
-        // always use squere, so we need only one dimension
+        // vždy se jedná o čtverec, proto stačí jeden rozměr herní plochy
         int squareSize = getWidth() / engine.getColsCount();
 
         for (int x = 0; x < engine.getColsCount(); x++) {

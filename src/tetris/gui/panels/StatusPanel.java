@@ -60,7 +60,7 @@ public class StatusPanel extends JPanel {
 
         // Top score
         JButton btnBoard = new JButton("Top skóre");
-        btnBoard.setFocusable(false); // otherwise, it would steel focus from game
+        btnBoard.setFocusable(false);
         btnBoard.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(btnBoard);
 
@@ -120,7 +120,7 @@ public class StatusPanel extends JPanel {
 
         // Start - pause - continue
         JButton btnStart = new JButton(BTN_START);
-        btnStart.setFocusable(false); // otherwise, it would steel focus from game
+        btnStart.setFocusable(false);
         btnStart.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(btnStart);
 
@@ -128,9 +128,8 @@ public class StatusPanel extends JPanel {
 
         // Restart
         JButton btnRestart = new JButton(BTN_RESTART);
-        //  btnRestart.setEnabled(false);
         btnRestart.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnRestart.setFocusable(false); // otherwise, it would steel focus from game
+        btnRestart.setFocusable(false);
         btnRestart.setEnabled(false);
         add(btnRestart);
 

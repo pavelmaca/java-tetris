@@ -48,7 +48,7 @@ public class ShapeGenerator {
      * @param shape Otáčený tvar
      */
     private void randomRotation(Shape shape) {
-        switch (randomGenerator.nextInt(4)) {// 4 is intentionaly.. make no changes
+        switch (randomGenerator.nextInt(4)) { // 0 - 3, pokud bude 3, tak se nepřeklopí, jinak číslo určuje (počet otočení - 1 )
             case 0:
                 shape.rotate();
             case 1:
@@ -65,7 +65,7 @@ public class ShapeGenerator {
      * @param shape Překlápěný tvar
      */
     private void randomFlip(Shape shape) {
-        switch (randomGenerator.nextInt(2)) { // 3 is intentionaly.. make no changes
+        switch (randomGenerator.nextInt(2)) { // 0 - 1, pokud bude 1, tak se nepřeklopí
             case 0:
                 shape.flip();
                 break;
